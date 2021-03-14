@@ -1,0 +1,445 @@
+@import "./cluster.scss";
+@import "./stackplot.scss";
+
+html,
+body {
+  margin: 0;
+  // overflow: hidden;
+  // font-family: sans-serif 
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif!important;
+  font-size: 0.95em !important;
+  // background-color: #fbfbfb;
+
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.ui.dropdown{
+margin:5px;
+
+}
+
+/*
+#time-slider {
+  margin:10px;
+  margin-right:25px;
+}
+
+#time-slider ul li:last-child {
+  white-space: nowrap;
+}
+
+#time-slider {
+  width: 20%;
+  min-width: 200px;
+
+  position: absolute;
+  right: 3px;;
+  top: 1%;
+}*/
+
+.flex-container-column {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.flex-container-row {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  height:100% !important;
+  /*height: calc(100% - 50px);*/
+}
+
+.flex-item {
+ 
+  flex: 1;
+  margin: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab {
+  background-color: ghostwhite;
+}
+
+.tab button {
+  background-color: #e8eef3;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: medium;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.tab {
+  z-index: 1;
+  position: relative;
+}
+
+.tab button:hover {
+  background-color: #bbd4ea;
+}
+
+.tab button.active {
+  background-color: #d8e9f7c2;
+}
+
+.tabcontent1 {
+  display: none;
+  padding: 0px;
+  border-top: none;
+  flex: 1 1 auto;
+  position: relative;
+}
+
+.tabcontent2 {
+  display: none;
+  padding: 0px;
+  border-top: none;
+  flex: 1 1 auto;
+}
+
+.show {
+  display: block;
+}
+
+.star-plot img {
+  width: 95%;
+  height: 100%;
+  margin-top: 30px;
+}
+
+#matrix>img {
+  width: 90%;
+}
+
+
+
+.rightViewTabs {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+#stack {
+  /*display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;*/
+
+  #stackedLinePlot {
+
+
+
+  }
+
+  #tendril {
+/*    flex: 1 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height:fit-content;
+    margin-bottom:10px;
+*/
+
+    svg {
+      /* flex: 1 0 auto; */
+      width: auto;
+      height:100%;
+    }
+  }
+}
+
+#scatterplot-legend {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  bottom: 32px;
+  pointer-events: none;
+}
+
+
+#infoButton {
+  color: grey;
+  border-radius: 50px;
+  padding-top: 10px;
+  margin-top: 5px;
+  padding-bottom: 10px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #e8eef3;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+
+.symtomsDropDown {
+  position: absolute;
+  top: 75%;
+  left: 0px;
+  z-index:9;
+}
+
+#patient-info {
+    width:100%;
+    height:100%;
+
+      svg{
+          width:100%;
+          height:100%;
+      }
+
+
+ /* position: absolute;*/
+ /* width:30%;
+  top:2.2%;
+  left:68%;
+  font-wight:bold;*/
+}
+
+.rating-scale {
+  height: 73px;
+
+  p {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 6px;
+  }
+
+  .box {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    span {
+      position: absolute;
+      bottom: -20px;
+      right: 0;
+      left: 0;
+    }
+  }
+}
+
+#defaultPatientText {
+  position: absolute;
+  top: 75%;
+  left: 63%;
+  color: black;
+  font-size: 3rem;
+}
+
+#patientID {
+  margin-left: 0px;
+}
+
+
+#matrix {
+  height: 80%;
+  width:5%;
+  left: 97.5vw;
+  top:5%;
+  position:absolute;
+  .correlation {
+    float: left;
+    height: 103%;
+  }
+
+
+}
+
+#scales{
+  display:flex;
+  justify-content:space-evenly;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom:15px;
+}
+.patientSvg{
+  width:100%;
+}
+
+
+.plot{
+  width:100%;
+}
+#tendril-note{
+ margin-bottom:20%; 
+}
+
+.tick{
+  font-size:0.5rem;
+}
+
+
+
+.filters{
+  margin:0;
+  z-index:100;
+  display:flex;
+  flex-align:flex-start;
+}
+
+.filter{
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+
+#patient-list{
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+
+.symptomsText{
+  position:absolute;
+  right:0;
+  top:6%;
+  display:block;
+  z-index:2;
+}
+
+#symptomsText{
+
+}
+
+.filterTitle{
+  margin-bottom:0px;
+  margin-top:5px !important; 
+  margin-left:6px;
+  font-weight:bold;
+}
+
+.label{
+  color:black !important;
+}
+
+.list-group-item{
+  padding:6px !important;
+}
+
+.time-slider-item{
+  padding-top:10px !important;
+  padding-right:10px !important;
+  padding-left:10px !important;
+}
+
+#filtersPanel{
+  margin:5px;
+  margin-top:7px;
+}
+
+button{
+
+  margin-bottom:2px !important;
+}
+
+
+.symptoms-buttons{
+  .btn-sm{
+    padding: .18rem .5rem !important;
+
+  }
+}
+
+.ui.selection.dropdown{
+      max-width: 5.8em !important;
+      min-height: 2.7em !important;
+}
+.tumorsStyle{
+
+  padding-left: 5px !important;padding-right: 5px !important;
+    button{
+      padding-left:0.65rem !important;
+      padding-right:0.65rem !important;
+  }
+}
+#PatiensPanel{
+    margin:5px;
+  margin-top:15px;
+}
+
+.symptoms-list{
+  margin-bottom:3px !important;
+}
+
+.filters-symptoms-list{
+  margin-left:-2px !important;
+}
+
+.patient-overview{
+  z-index:100 !important;
+}
+
+.scatterPLOTTitle{
+  font-size:0.7rem !important;
+  font-weight:bold !important;
+  text-transform: none !important;
+}
+
+#tendril{
+  margin:0 !important;
+  margin-left:100px !important;
+  height:28%;
+  display:grid;
+  // grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+
+}

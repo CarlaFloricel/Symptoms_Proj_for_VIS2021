@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>HNC Symptom Ratings</title>
+  <link rel="stylesheet" href="./assets/styles/main.scss">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+ > -->
+</head>
+
+<body>
+  <div class="flex-container-row">
+
+    <div class="flex-container-column " style="flex:1.32 0 0; align-items: center;">
+      <div id="filtersPanel" class="">
+        <!--         <ul class="list-group">
+          <li>
+        <div class="panel-body" style="padding: 8px !important;margin-bottom: 5px;">
+            <h5 class="entries-count-label panel-label" >Clusters Filters
+              <button type="button" class="btn btn-light btn-sm reset-category-filters hidden" style="font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;" title="Reset filters" data-category="domain" id="filtersResetButton" >x</button>
+            </h5>
+        </div>
+      </li>
+      </ul> -->
+
+
+        <!-- <ul class="list-group">
+          <li class="list-group-item time-slider-item">
+            <h5 class="inline-block panel-label" style="padding-bottom:0px !important; margin-bottom: 5px !important;">
+              Patient Selection</h5>
+            <div class="filter patient-dropdown">
+              <select multiple id="patient-list" class="ui dropdown patient">
+                <option id="patient-list-placeholder" value="">Select Patient ID(s)</option>
+              </select>
+            </div>
+          </li>
+        </ul> -->
+
+
+
+
+
+
+
+
+
+        <div class="card"
+          style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 0%; margin-bottom:5px;">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0 ">Select Patient</h5>
+          </div>
+          <div class="card-body text-left" style=" font-size: 0.9em; padding: 5px">
+            <div class="filter patient-dropdown">
+              <select multiple id="patient-list" class="ui dropdown patient">
+                <option id="patient-list-placeholder" value="">Select Patient ID(s)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- 
+        <ul class="list-group">
+          <li class="list-group-item filter">
+            <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;">Therapeutic Combination
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="therapyReset">x</button>
+            </h5>
+            <div class="category-entries-container  " id="filters-list3">
+              <button type="button" class="btn btn-light category-entry filters-list" id="CC">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#803e3b"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> CC</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="Radiation">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#9854cc"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> Radiation Alone</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="ICCC">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#DA8A00"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> IC+CC</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="ICRad">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#058f96"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> IC+Radiation</button>
+            </div>
+          </li>
+          <li class="list-group-item filter">
+            <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;">Rating Severity
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="ratingReset">x</button>
+            </h5>
+            <div class="category-entries-container  " id="filters-list4">
+              <button type="button" class="btn btn-light category-entry filters-list" id="Mild"> Mild
+              </button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="Severe">Severe
+              </button>
+            </div>
+          </li>
+          <li class="list-group-item filter">
+            <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;">Gender
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style=" font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="genderReset">x</button>
+            </h5>
+            <div class="category-entries-container  " id="filters-list1">
+              <button type="button" class="btn btn-light category-entry filters-list" id="Female">
+                <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0.5  16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="8" cy="8" r="7.5" />
+                </svg> Female</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="Male">
+                <svg style="transform:rotate(180deg);" class="bi bi-triangle-fill" width="1em" height="1em"
+                  viewBox="0 -1 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                </svg> Male</button>
+            </div>
+          </li>
+          <li class="list-group-item filter tumorsStyle">
+            <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;">Tumor Category
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="tumorReset">x</button>
+            </h5>
+            <div class="category-entries-container  " id="filters-list3">
+              <button type="button" class="btn btn-light category-entry filters-list" id="T1">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="4" height="4" rx="1" />
+                </svg>T1</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="T2">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 -1  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="6" height="6" rx="1" />
+                </svg>T2</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="T3">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="8" height="8" rx="1" />
+                </svg>T3</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="T4">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> T4</button>
+            </div>
+          </li>
+        </ul> -->
+        <!-- <ul class="list-group">
+          <li class="list-group-item filter">
+            <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;">Outcome
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="outcomeReset">x</button>
+            </h5>
+            <div class="category-entries-container  " id="filters-list6">
+              <button type="button" class="btn btn-light category-entry filters-list" id="Negative">Negative</button>
+              <button type="button" class="btn btn-light category-entry filters-list" id="Positive">Positive</button>
+            </div>
+          </li>
+        </ul> -->
+
+
+
+
+
+
+
+
+
+
+        <div class=" list ist-group-item filter groupcard"
+          style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 0%">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0 ">Filters</h5>
+          </div>
+
+          
+          <div class="card-body text-left" style=" font-size: 0.9em; padding: 10px">
+            <div>
+            <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px; font-weight: bold;">
+              Therapeutic Combination
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="therapyReset">x</button>
+            </h6>
+            <div class="category-entries-container  " id="filters-list3" style="margin-bottom: 10px;">
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="CC">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#803e3b"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> CC</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Radiation">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#9854cc"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> Radiation Alone</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="ICCC">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#DA8A00"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> IC+CC</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="ICRad">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#058f96"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> IC+Radiation</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="ICCCR">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="orange"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> IC + Radiation + CC</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="IC">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#e6f598"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> IC</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="CCRad">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#4d9221"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> CC+Radiation</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="NoTherapy">
+                <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#83aad4"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> None</button>
+            </div>
+           </div>
+
+
+<div>
+            <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px; font-weight: bold;">Rating
+              Severity
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="ratingReset">x</button>
+            </h6>
+            <div class="category-entries-container  " id="filters-list4" style="margin-bottom: 10px;">
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Mild">Mild
+              </button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Severe"> Severe
+              </button>
+            </div>
+            </div>
+            <div>
+            <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;">Gender
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style=" font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="genderReset">x</button>
+            </h6>
+            <div class="category-entries-container  " id="filters-list1" style="margin-bottom: 10px;">
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Female">
+                <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0.5  16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="8" cy="8" r="7.5" />
+                </svg> Female</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Male">
+                <svg style="transform:rotate(180deg);" class="bi bi-triangle-fill" width="1em" height="1em"
+                  viewBox="0 -1 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                </svg> Male</button>
+            </div>
+            </div>
+            <div>
+            <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;  font-weight: bold;">Tumor
+              Category
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="tumorReset">x</button>
+            </h6>
+            <div class="category-entries-container  " id="filters-list3" style="margin-bottom: 10px;">
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T1">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="4" height="4" rx="1" />
+                </svg>T1</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T2">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 -1  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="6" height="6" rx="1" />
+                </svg>T2</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T3">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="8" height="8" rx="1" />
+                </svg>T3</button>
+              <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T4">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" rx="1" />
+                </svg> T4</button>
+            </div>
+</div>
+            <div>
+            <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;  font-weight: bold;">
+              Outcome
+              <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="outcomeReset">x</button>
+            </h6>
+            <div class="category-entries-container  " id="filters-list6">
+              <button type="button" class="btn btn-light btn-sm category-entry filters-list"
+                id="Negative">Negative</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-list"
+                id="Positive">Positive</button>
+            </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- <ul class="list-group">
+          <li class="list-group-item filter">
+            <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 5px;">Cluster By Symptoms
+              <button type="button" class="btn btn-light btn-sm reset-category-filter btn-sm reset-clustering hidden"
+                style="padding:.0rem .5rem !important; margin-top: -7px;font-weight: 700 !important;"
+                title="Reset filters" data-category="domain" id="symptomsReset">x</button>
+            </h5> -->
+        <!--                   <div class="form-check  trajectory-button" style="padding-left: 5px;">
+                      <input class="form-check-input " type="checkbox" value="" id="cluster-trajectory">
+                      <label class="form-check-label" for="defaultCheck1" style= "margin-left: 20px !important; font-weight: normal;">
+                           by Trajectory
+                      </label>
+                  </div> -->
+        <!-- <div class="category-entries-container " id="symptoms-list-container">
+
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="nauseaFilter">nausea</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="vomitFilter">vomit</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="mucusFilter">mucus</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="breathFilter">breath</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="chokingFilter">chocking</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="swallowFilter">swallow</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="dryMouthFilter">dryMouth</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="teethFilter">teeth</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="speechFilter">speech</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="tasteFilter">taste</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="appetiteFilter">appetite</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="constipationFilter">constipation</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="soresFilter">sores</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="skinFilter">skin</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="painFilter">pain</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="sleepFilter">sleep</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="drowsinessFilter">drowsiness</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="numbnessFilter">numbness</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="fatigueFilter">fatigue</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="distressFilter">distress</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="memoryFilter">memory</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="sadnessFilter">sadness</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="moodFilter">mood</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="enjoymentFilter">enjoyment</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="activitiesFilter">ativities</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="workFilter">work</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="relationsFilter">relations</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list "
+                id="walkingFilter">walking</button>
+
+            </div>
+          </li>
+        </ul> -->
+        <!-- <ul class="list-group">
+          <li class="list-group-item filter">
+            <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 5px;">Tendril Plot Legend</h5>
+            <div>
+              <i class="long arrow alternate right icon"
+                style="color:#83aad4; opacity:0.8; margin-left:3px; transform: scale(1.5); "></i> Time direction
+            </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#83aad4" opacity="0.65"
+                xmlns="http://www.w3.org/2000/svg" style="width: 10%;">
+                <circle cx="10" cy="10" r="7" />
+              </svg> Time point
+
+            </div>
+
+            <div>
+              <svg style=" transform: rotate(0deg);" fill="#83aad4" id="Solid" height="20" viewBox="0 0 512 512"
+                width="20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m391.968 146.624a341.723 341.723 0 0 1 -27.011 131.284 342.818 342.818 0 0 1 -73.712 109.337 343 343 0 0 1 -243.245 100.755 24 24 0 0 1 0-48 294.062 294.062 0 0 0 209.3-86.7 294 294 0 0 0 86.667-206.59l24.033-32.044zm86.432 48.576a24 24 0 0 0 4.8-33.6l-96-128a24 24 0 0 0 -38.4 0l-96 128a24 24 0 1 0 38.4 28.8l76.8-102.4 76.8 102.4a24 24 0 0 0 33.6 4.8z" />
+              </svg> Rating Decrease
+            </div>
+            <div>
+              <svg id="Solid" style=" transform: rotate(90deg);" height="20" fill="#83aad4" viewBox="0 0 512 512"
+                width="20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m365.291 168.033a295.963 295.963 0 0 0 -293.291 295.967 24 24 0 0 1 -48 0 343.66 343.66 0 0 1 341.376-343.968l31.958 23.968zm-14.891 91.167 128-96a24 24 0 0 0 0-38.4l-128-96a24 24 0 1 0 -28.8 38.4l102.4 76.8-102.4 76.8a24 24 0 1 0 28.8 38.4z" />
+              </svg> Rating Increase
+            </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="black"
+                xmlns="http://www.w3.org/2000/svg" style="width: 10%;">
+                <circle cx="10" cy="10" r="7" />
+              </svg> Dead patient (last time point)
+            </div>
+            <div>
+              <i class="window minimize icon" style="color:red;"></i> Selected Patient
+            </div>
+            <div class="form-check  colored-tendrils-button" style="padding-left: 5px;">
+              <input class="form-check-input " type="checkbox" value="" id="show-colored-tendrils">
+              <label class="form-check-label" for="defaultCheck1"
+                style="margin-left: 20px !important; font-weight: normal;">
+                Color by Therapeutic Combo
+              </label>
+            </div>
+          </li>
+        </ul> -->
+
+
+
+
+
+
+        <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 2%">
+          <div class="card-header filter" style="background:aliceblue">
+            <h5 style="margin: 0 ">Cluster by Symptoms
+              <button type="button" class="btn btn-light btn-sm reset-category-filter reset-clustering hidden"
+                style="font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                title="Reset filters" data-category="domain" id="filtersResetButton">x</button>
+            </h5>
+          </div>
+          <div class="card-body text-left category-entries-container"  style=" font-size: 0.9em; padding: 5px">
+        
+
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="nauseaFilter">nausea</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="vomitFilter">vomit</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="mucusFilter">mucus</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="breathFilter">breath</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="chokingFilter">chocking</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="swallowFilter">swallow</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="dryMouthFilter">dryMouth</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="teethFilter">teeth</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="speechFilter">speech</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="tasteFilter">taste</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="appetiteFilter">appetite</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="constipationFilter">constipation</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="soresFilter">sores</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="skinFilter">skin</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="painFilter">pain</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="sleepFilter">sleep</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="drowsinessFilter">drowsiness</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="numbnessFilter">numbness</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="fatigueFilter">fatigue</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="distressFilter">distress</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="memoryFilter">memory</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="sadnessFilter">sadness</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="moodFilter">mood</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="enjoymentFilter">enjoyment</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="activitiesFilter">ativities</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="workFilter">work</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+                id="relationsFilter">relations</button>
+              <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list "
+                id="walkingFilter">walking</button>
+
+           
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 2%">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0 ">Tendril Plot Legend</h5>
+          </div>
+          <div class="card-body text-left"
+            style=" font-size: 0.9em; padding-left: 15px; padding-top: 5px; padding-bottom: 5px;">
+            <div>
+              <i class="long arrow alternate right icon"
+                style="color:#83aad4; opacity:0.8; margin-left:3px; transform: scale(1.5); "></i> Time direction
+            </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#83aad4" opacity="0.65"
+                xmlns="http://www.w3.org/2000/svg" style="width: 10%;">
+                <circle cx="10" cy="10" r="7" />
+              </svg> Time point
+
+            </div>
+
+            <div>
+              <svg style=" transform: rotate(0deg);" fill="#83aad4" id="Solid" height="20" viewBox="0 0 512 512"
+                width="20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m391.968 146.624a341.723 341.723 0 0 1 -27.011 131.284 342.818 342.818 0 0 1 -73.712 109.337 343 343 0 0 1 -243.245 100.755 24 24 0 0 1 0-48 294.062 294.062 0 0 0 209.3-86.7 294 294 0 0 0 86.667-206.59l24.033-32.044zm86.432 48.576a24 24 0 0 0 4.8-33.6l-96-128a24 24 0 0 0 -38.4 0l-96 128a24 24 0 1 0 38.4 28.8l76.8-102.4 76.8 102.4a24 24 0 0 0 33.6 4.8z" />
+              </svg> Rating Decrease
+            </div>
+            <div>
+              <svg id="Solid" style=" transform: rotate(90deg);" height="20" fill="#83aad4" viewBox="0 0 512 512"
+                width="20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m365.291 168.033a295.963 295.963 0 0 0 -293.291 295.967 24 24 0 0 1 -48 0 343.66 343.66 0 0 1 341.376-343.968l31.958 23.968zm-14.891 91.167 128-96a24 24 0 0 0 0-38.4l-128-96a24 24 0 1 0 -28.8 38.4l102.4 76.8-102.4 76.8a24 24 0 1 0 28.8 38.4z" />
+              </svg> Rating Increase
+            </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="black"
+                xmlns="http://www.w3.org/2000/svg" style="width: 10%;">
+                <circle cx="10" cy="10" r="7" />
+              </svg> Dead patient (last time point)
+            </div>
+            <div>
+              <i class="window minimize icon" style="color:red;"></i> Selected Patient
+            </div>
+            <div class="form-check  colored-tendrils-button" style="padding-left: 5px;">
+              <input class="form-check-input " type="checkbox" value="" id="show-colored-tendrils">
+              <label class="form-check-label" for="defaultCheck1"
+                style="margin-left: 20px !important; font-weight: normal;">
+                Color by Therapeutic Combo
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="flex-container-column" style="flex:3.8 0 0;">
+
+
+      <div id="scatterplot"></div>
+
+      <div id="tendril" style="margin:auto"></div>
+      <div onload="main();">
+        <!-- <object  data ='graph_svg.svg' type='image/svg+xml' id="external_svg"></object> -->
+        <script type="text/javascript" src='graph.js' >
+
+        </script>
+       
+      </div>
+
+
+      <!--      <div style="display:flex; flex-direction: row; margin-left: 5.5%">
+      <span style="margin-left: 10px;">  Time</span>
+       <svg height="10" width="200" style=" margin-top:9px; margin-left: 30px;">
+          <line x1="0" y1="0" x2="200" y2="0" style="stroke:#83aad4;stroke-width:2" />
+        </svg>
+        <span style="color: #83aad4">> </span>
+       
+
+     </div> -->
+
+    </div>
+    <div class="flex-container-column" style="flex:4.5 0 0;">
+
+      <div id="stackedLinePlot" style="margin-top: 1%!important;">
+
+
+
+
+
+        <div id="filtersPanel" class=""
+          style="position: absolute; height: 98%; margin-top:0px !important; width: 11%; z-index:1 !important;margin-left: 20px;">
+          <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%;">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Select Time</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; margin-bottom:-5px;">
+              <div id="time-slider" class="ui labeled ticked slider"></div>
+            </div>
+          </div>
+
+
+          <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%;">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Affected Areas:</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; margin-bottom:-5px;">
+              <div style="margin:auto;">
+
+                <svg style="margin-left: 40px;" id="Layer_1" enable-background="new 0 0 512 512" height="120"
+                  viewBox="0 0 512 512" width="120" xmlns="http://www.w3.org/2000/svg">
+                  <g>
+                    <g>
+                      <path
+                        d="m422.94 169.95c-2.426 0-4.834.214-7.214.621v-10.845c0-88.073-71.653-159.726-159.726-159.726-45.949 0-89.706 19.816-120.051 54.366-2.733 3.112-2.426 7.851.686 10.584s7.852 2.426 10.584-.686c27.498-31.308 67.147-49.264 108.781-49.264 79.802 0 144.726 64.924 144.726 144.726v76.94c0 18.207-2.292 36.272-6.756 53.773-.021.086-.046.17-.064.256-5.102 19.898-13.015 39.065-23.57 56.88-2.112 3.563-.935 8.164 2.629 10.276 3.563 2.11 8.164.935 10.275-2.629 9.68-16.337 17.275-33.741 22.683-51.788 5.451 2.314 11.206 3.517 17.017 3.517 30.135 0 34.475-24.415 36.807-37.531 1.365-7.679 1.417-8.171 5.501-14.444 4.122-6.33 9.252-14.208 9.252-30.195 0-33.822-19.757-54.831-51.56-54.831zm29.738 76.84c-5.379 8.262-6.021 10.559-7.7 20.004-2.702 15.196-5.695 25.156-22.039 25.156-4.541 0-8.938-1.087-13.127-3.231 3.906-17.006 5.913-34.467 5.913-52.053v-10.129c.899-1.388 2.578-3.657 4.997-5.598 4.781-3.839 10.149-4.534 16.412-2.127 3.865 1.486 8.205-.442 9.691-4.31 1.486-3.866-.443-8.205-4.31-9.691-10.852-4.172-19.879-2.488-26.791 1.409v-20.314c2.37-.633 4.783-.956 7.214-.956 32.998 0 36.56 27.854 36.56 39.83.002 11.534-3.159 16.388-6.82 22.01z" />
+                      <path
+                        d="m363.449 371.944c-3.442-2.303-8.1-1.379-10.404 2.064-11.845 17.495-12.737 19.561-16.73 24.217-.057.067-.114.133-.169.202-11.572 13.379-28.413 21.178-46.37 21.178h-62.16c-19.563 0-38.112-9.447-49.617-25.271l-25.129-34.561c-15.432-21.225-26.733-44.642-33.63-69.378-.083-.571-.239-1.134-.456-1.682-4.962-18.368-7.51-37.447-7.51-56.888v-72.1c0-24.765 6.36-49.2 18.393-70.665 2.025-3.613.739-8.184-2.875-10.209s-8.184-.739-10.209 2.875c-13.286 23.7-20.309 50.671-20.309 78v10.845c-2.38-.407-4.788-.621-7.214-.621-31.803 0-51.56 21.009-51.56 54.83 0 15.988 5.13 23.865 9.252 30.195 4.079 6.265 4.136 6.759 5.501 14.444 2.332 13.116 6.672 37.531 36.807 37.531 6.266 0 12.445-1.396 18.261-4.074 7.482 23.331 18.688 45.46 33.418 65.719l21.761 29.929v105.976c0 4.142 3.358 7.5 7.5 7.5h22.231c4.142 0 7.5-3.358 7.5-7.5s-3.358-7.5-7.5-7.5h-14.731v-81.176c13.763 11.954 31.571 18.781 50.117 18.781h62.16c16.322 0 31.897-5.184 44.724-14.462v76.857h-110.424c-4.142 0-7.5 3.358-7.5 7.5s3.358 7.5 7.5 7.5h117.923c4.142 0 7.5-3.358 7.5-7.5v-98.693c3.427-4.31 4.239-5.994 16.013-23.459 2.303-3.443 1.379-8.101-2.064-10.404zm-274.389-79.994c-16.343 0-19.337-9.96-22.039-25.156-1.683-9.465-2.324-11.747-7.7-20.004-3.661-5.621-6.822-10.476-6.822-22.01 0-11.976 3.563-39.83 36.56-39.83 2.431 0 4.844.323 7.214.956v20.314c-6.911-3.896-15.938-5.58-26.791-1.409-3.866 1.486-5.796 5.825-4.31 9.691s5.826 5.797 9.691 4.31c8.987-3.455 16.291-.173 21.409 7.731v5.283c0 19.22 2.332 38.109 6.877 56.372-4.473 2.488-9.194 3.752-14.089 3.752z" />
+                      <path
+                        d="m297.423 277.294c-3.52-2.185-8.143-1.103-10.328 2.416-.085.137-9.112 13.687-31.095 13.687-21.824 0-30.682-13.059-31.13-13.743-2.198-3.475-6.792-4.532-10.292-2.36-3.519 2.185-4.601 6.809-2.416 10.328.527.848 13.25 20.775 43.839 20.775s43.312-19.927 43.839-20.775c2.183-3.518 1.102-8.143-2.417-10.328z" />
+                      <path
+                        d="m189.401 158.451c-25.182-2.175-46.128 5.491-47.007 5.819-3.882 1.445-5.857 5.763-4.413 9.645 1.445 3.882 5.762 5.856 9.645 4.413.184-.068 18.625-6.814 40.487-4.932 19.539 1.685 29.534 16.96 29.989 17.671 2.199 3.495 6.809 4.554 10.313 2.371 3.516-2.19 4.59-6.816 2.4-10.332-.566-.91-14.194-22.309-41.414-24.655z" />
+                      <path
+                        d="m374.019 173.915c1.445-3.882-.531-8.2-4.413-9.645-.879-.327-21.824-7.99-47.007-5.819-27.22 2.346-40.847 23.746-41.414 24.655-2.182 3.502-1.114 8.092 2.377 10.293 3.485 2.196 8.11 1.157 10.333-2.328.416-.652 10.413-15.988 29.992-17.676 21.705-1.869 40.313 4.868 40.487 4.932 3.882 1.446 8.2-.531 9.645-4.412z" />
+                      <path
+                        d="m212.059 330.352c-3.766-1.682-8.189-.006-9.892 3.757-1.707 3.774-.032 8.217 3.742 9.925.692.313 17.324 7.667 50.091 7.667s49.399-7.354 50.091-7.667c3.759-1.701 5.42-6.11 3.74-9.879s-6.107-5.463-9.885-3.805c-.145.063-14.793 6.35-43.946 6.35-28.962 0-43.609-6.204-43.941-6.348z" />
+                    </g>
+                  </g>
+                </svg>
+                <svg id="brain" class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+                  opacity="0" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 22%; height: 70px; position: absolute; top:47px; left:83px;">
+                  <rect width="20" height="9" rx="5" />
+                </svg>
+                <svg id="mouth" class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+                  opacity="0.2" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 20%; height: 50px; position: absolute; top:120px; left:88px;">
+                  <rect width="17" height="8" rx="5" />
+                </svg>
+
+                <svg id="throat" class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+                  opacity="0.2" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 20%; height: 50px; position: absolute; top:145px; left:90.5px;">
+                  <rect width="15" height="7" rx="5" />
+                </svg>
+                <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0.5  16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="width: 5%; height: 5px; position: absolute; top:95px; left:83px;">
+                  <circle cx="8" cy="8" r="7.5" />
+                </svg>
+                <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0.5  16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="width: 5%; height: 5px; position: absolute; top:95px; left:117px;">
+                  <circle cx="8" cy="8" r="7.5" />
+                </svg>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%;">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Patients Overview</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; margin-bottom:-5px;">
+
+              <li class="filter">
+
+                <div style="height: 46vh !important">
+                  <div id='patientOverviewTitle'>No. of patients per time point:</div>
+                  <div id="patientOverviewContainter">
+                    <div id="overview0W"></div>
+                    <div id="overview2W"></div>
+                    <div id="overview3W"></div>
+                    <div id="overview4W"></div>
+                    <div id="overview5W"></div>
+                    <div id="overview6W"></div>
+                    <div id="overview7W"></div>
+                    <div id="overview12W"></div>
+                    <div id="overview18W"></div>
+                    <div id="overview24W"></div>
+                    <div id="overview48W"></div>
+                    <div id="overview72W"></div>
+                  </div>
+                  <div style="margin-top:20px;">
+                    <div id='symptomOvervirePreTitle'></div>
+                    <div id='sympOverviewTitle' style="margin-left: 25px"></div>
+                    <div style="margin-left: 60px">
+                      <div style="margin-left: 15px;"> <svg id="0Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#fee5d9" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview0R"></span></div>
+                      <div style="margin-left: 15px;"><svg id="5Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#fcae91" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview5R"></span></div>
+                      <div style="margin-left: 15px;"><svg id="9Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#fb6a4a" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview9R"> </span></div>
+                      <div style="margin-left:15px;"><svg id="10Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#de2d26" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview10R"></span></div>
+
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="0Rlegend2" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview0R2">4</span></div>
+
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="5Rlegend2" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview5R2">5</span></div>
+
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="9Rlegend2" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview9R2">6</span></div>
+
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="10Rlegend2" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview10R2">7</span></div>
+
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="0Rlegend3" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview0R3">8</span></span></div>
+
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="5Rlegend3" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview5R3">9</span></div>
+
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="9Rlegend3" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview9R3">10</span></div>
+                      <div style="margin-left:15px;margin-top:-2px"><svg id="10Rlegend3" class="bi bi-square-fill"
+                          width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview10R3">Missing Info</span></div>
+                    </div>
+
+
+              </li>
+
+
+            </div>
+          </div>
+          <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%;margin-top:5px">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Ratings Values Legend</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; margin-bottom:-5px;">
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#fee5d9"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 0
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#fcae91"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 1-5
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#fb6a4a"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 6-9
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 10
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#bdc9e1"
+                  xmlns="http://www.w3.org/2000/svg" style=" opacity:0.3;">
+                  <rect width="10" height="10" />
+                </svg> Missing Information
+              </div>
+              <div class="form-check  show-percentages" style=" position:absolute !important; margin-top: -210px;">
+                <input class="form-check-input " type="checkbox" value="" id="show-percentages">
+                <label class="form-check-label" for="defaultCheck1"
+                  style="margin-left: 15px !important; font-weight: normal;">
+                  Show Percentages
+                </label>
+              </div>
+              <div class="form-check show-patient-checkbox-neighbors"
+                style="visibility: hidden; position:absolute !important; margin-top: -180px;">
+                <input class="form-check-input " type="checkbox" value="" id="show-patient-nearest_neighbors">
+                <label class="form-check-label" for="defaultCheck1"
+                  style="margin-left: 15px !important; font-weight: normal;">
+                  Show Similar Patients
+                </label>
+              </div>
+              <div class="form-check show-patient-checkbox"
+                style="visibility: hidden; position:absolute !important; margin-top: -160px;">
+                <input class="form-check-input " type="checkbox" value="" id="show-patient">
+                <label class="form-check-label" for="defaultCheck1"
+                  style="margin-left: 15px !important; font-weight: normal;">
+                  Show Selected Patient
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
+        <div id="stackplot"></div>
+        <div id="transactions"></div>
+
+      </div>
+
+      <div onload="main();" style="transform: scale(0.8); margin-left: 150px;">
+        <object  data ='from_g2_graph.svg' type='image/svg+xml' id="external2_svg"></object>
+        <script type="text/javascript" src='graph.js' >
+
+        </script>
+       
+      </div>
+
+
+    </div>
+    <div class="flex-container-column"  style="flex:0.7 0 0;">
+      <div id="filtersPanel " style="box-shadow: 0 10px 20px 10px rgb(0 0 0 / 5%); border:0.1;  width: 100%; margin-top: 0%; margin-top:5px;">
+        <div class="">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0 ">Symptoms</h5>
+          </div>
+
+        </div>
+  
+
+
+          <div class="category-entries-container symptoms-buttons" id="filters-list-6"
+            style="margin-top: 10px !important;">
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="nausea">nausea</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="vomit">vomit</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="mucus">mucus</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="breath">breath</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="choking">chocking</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="swallow">swallow</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="dryMouth">dryMouth</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="teeth">teeth</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="speech">speech</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="taste">taste</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="appetite">appetite</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list"
+                id="constipation">constipation</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="sores">sores</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="skin">skin</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="pain">pain</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="sleep">sleep</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="drowsiness">drowsiness</button>
+            </div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="numbness">numbness</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="fatigue">fatigue</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="distress">distress</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="memory">memory</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="sadness">sadness</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="mood">mood</button></div>
+            <div><button type="button" class="btn btn-light btn-sm category-entry symptoms-list"
+                id="enjoyment">enjoyment</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="activities">activities</button>
+            </div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="work">work</button></div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="relations">relations</button>
+            </div>
+            <div><button type="button" class="btn btn-light btn-sm symptoms-list " id="walking">walking</button></div>
+
+            <div id="matrix" class="correlation-matrix" style="margin:auto; "></div>
+          </div>
+
+        </ul>
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+      
+
+      <div class="card"style="box-shadow: 0 10px 20px 10px rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 0%; margin-top:5px;">
+      <div class="card-header" style="background:aliceblue">
+        <h5 style="margin: 0 ">Correlation</h5>
+      </div>
+      <div class="card-body text-left" style=" font-size: 0.9em; padding: 5px">
+        
+        <div style="font-size: 0.8rem; height:25% !important ">
+          <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+            xmlns="http://www.w3.org/2000/svg" style="height: 20px; width:20px; opacity:0.5">
+            <circle cx="10" cy="10" r="10" />
+          </svg> High Correlation
+        </div>
+        <div style="font-size: 0.8rem;">
+          <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#fee0d2"
+            xmlns="http://www.w3.org/2000/svg" style="width: 20%;">
+            <circle cx="10" cy="10" r="5" />
+          </svg> Low Correlation
+        </div>
+        <div style="margin-left: 10px; font-size: 0.8rem;">with last selected symptom</div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <script src="./src/index.js"></script>
+</body>
+
+</html>

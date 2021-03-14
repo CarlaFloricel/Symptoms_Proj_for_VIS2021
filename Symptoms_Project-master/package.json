@@ -1,0 +1,58 @@
+{
+  "name": "final-project",
+  "version": "0.0.1",
+  "description": "CS 529 - Project",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nkprince007/cs529-project.git"
+  },
+  "keywords": [
+    "project",
+    "d3",
+    "threejs"
+  ],
+  "author": "Naveen Kumar Sangi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nkprince007/cs529-project/issues"
+  },
+  "homepage": "https://github.com/nkprince007/cs529-project#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-static-files-copy": "^2.2.1",
+    "sass": "^1.23.0"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "d3": "^5.12.0",
+    "d3-force": "^2.0.1",
+    "d3-tip": "^0.9.1",
+    "d3-v6-tip": "^1.0.8",
+    "fomantic-ui-css": "^2.7.8",
+    "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
+    "lodash-joins": "^2.0.3",
+    "popper.js": "^1.16.1"
+  },
+  "staticFiles": {
+    "staticPath": [
+      {
+        "staticPath": "assets",
+        "staticOutDir": "assets"
+      },
+      {
+        "staticPath": "data",
+        "staticOutDir": "data"
+      }
+    ],
+    "watcherGlob": "**"
+  }
+}

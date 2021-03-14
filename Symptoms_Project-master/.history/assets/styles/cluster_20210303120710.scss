@@ -1,0 +1,137 @@
+#scatterplot {
+
+  font-family: sans-serif;
+  svg {
+    height: 100%;
+    width: 100%;
+    margin-top:px;
+  }
+}
+
+#scatterplot text {
+  font-weight: lighter;
+  font-family:sans-serif;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+}
+
+.size-scale,
+.shape-scale,
+.color-scale,
+.therapeutic-scale,
+.rating-scale {
+  --margin: 8px;
+  color: black;
+  font-size: 0.8rem;
+  padding: 6px;
+  width: fit-content;
+  align-self:flex-end;
+  height:fit-content;
+
+  p {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 3px;
+  }
+
+  .color-circle {
+    border-radius: 0px;
+    border: 1px solid black;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+    background-color: black;
+  }
+}
+
+.size-scale {
+
+  bottom: unset;
+
+  .color-circle.t1 {
+    width: 6px;
+    height: 6px;
+  }
+
+  .color-circle.t2 {
+    width: 8px;
+    height: 8px;
+  }
+
+  .color-circle.t3 {
+    width: 12px;
+    height: 12px;
+  }
+
+  .color-circle.t4 {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.shape-scale {
+  .color-circle.male {
+    width: 16px;
+    height: 16px;
+  }
+
+  .color-circle {
+    border-radius: 20px;
+  }
+
+  .color-circle.female {
+    border: none;
+    border-radius:1px;
+    width:20px;
+    height:20px;
+    margin-left:-3px;
+    background: url(/assets/imgs/triang1.JFIF);
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+  }
+}
+
+.color-scale {
+
+
+  .color-circle {
+    opacity: 0.7;
+  }
+
+  .color-circle.severe {
+    background-color: #cb181d;
+  }
+  .color-circle.severe {
+    background-color: #cb181d;
+  }
+
+  .color-circle.mild {
+    background-color: #fee0d2;
+  }
+
+}
+
+.therapeutic-scale {
+   
+ 
+
+    .CC {
+      background-color: ghostwhite;
+      border: 3px solid #803e3b;
+    }
+    .IC-CC {
+      background-color: ghostwhite;
+      border: 3px solid #DA8A00;
+    }
+    .IC-R {
+      background-color: ghostwhite;
+      border: 3px solid #058f96;
+    }
+    .R {
+      background-color: ghostwhite;
+      border: 3px solid #9854cc;
+    }

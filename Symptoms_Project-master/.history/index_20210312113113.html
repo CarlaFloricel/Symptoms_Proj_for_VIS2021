@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>HNC Symptom Ratings</title>
+  <link rel="stylesheet" href="./assets/styles/main.scss">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min
+    .css" 
+ > -->
+</head>
+
+<body>
+  <div class="flex-container-row">
+
+    <div class="flex-container-column " style="flex:1.32 0 0; align-items: center; z-index:100">
+      <div id="filtersPanel" class="">
+
+        <div class="card"
+          style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 0%; margin-bottom:5px;">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0 ">Select 2D View</h5>
+          </div>
+          <div class="card-body text-left" style=" font-size: 0.9em; padding: 5px">
+            <button type="button" class="btn btn-light btn-sm btn_without_categ" id="Patients2D">Patients</button>
+            <button type="button" class="btn btn-light btn-sm btn_without_categ active" id="SymptomRules">Symptom
+              Rules</button>
+          </div>
+        </div>
+
+
+        <div class=" list ist-group-item filter groupcard" id="patients_filters_panel_title"
+          style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 0%; display: none;">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0; ">Filters</h5>
+          </div>
+
+
+          <div class="card-body text-left" style=" font-size: 0.9em; padding: 10px" id="rules_filters_panel">
+            <div>
+              <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px; font-weight: bold;">
+                Therapeutic Combination
+                <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                  style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                  title="Reset filters" data-category="domain" id="therapyReset">x</button>
+              </h6>
+              <div class="category-entries-container  " id="filters-list3" style="margin-bottom: 10px;">
+
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Radiation"  style="margin-right: 50px;"> 
+                  <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#9854cc"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="10" height="10" rx="1" />
+                  </svg> Radiation</button>
+
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="ICRad">
+                  <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#058f96"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="10" height="10" rx="1" />
+                  </svg> IC+Radiation</button>
+                  <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="CCRad">
+                    <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="#4d9221"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <rect width="10" height="10" rx="1" />
+                    </svg> CC+Radiation</button>
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="ICCCR">
+                  <svg class="bi bi-square" width="1em" height="1em" viewBox="0 0 10 10" fill="orange"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="10" height="10" rx="1" />
+                  </svg> IC + Radiation + CC</button>
+
+
+
+              </div>
+            </div>
+
+
+            <div>
+              <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px; font-weight: bold;">
+                Rating
+                Severity
+                <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                  style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                  title="Reset filters" data-category="domain" id="ratingReset">x</button>
+              </h6>
+              <div class="category-entries-container  " id="filters-list4" style="margin-bottom: 10px;">
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Mild">Mild
+                </button>
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Severe"> Severe
+                </button>
+              </div>
+            </div>
+            <div>
+              <h5 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;">Gender
+                <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                  style=" font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                  title="Reset filters" data-category="domain" id="genderReset">x</button>
+              </h5>
+              <div class="category-entries-container  " id="filters-list1" style="margin-bottom: 10px;">
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Female">
+                  <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0.5  16 16" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="7.5" />
+                  </svg> Female</button>
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="Male">
+                  <svg style="transform:rotate(180deg);" class="bi bi-triangle-fill" width="1em" height="1em"
+                    viewBox="0 -1 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                      d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" />
+                  </svg> Male</button>
+              </div>
+            </div>
+            <div>
+              <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;  font-weight: bold;">
+                Tumor
+                Category
+                <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                  style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                  title="Reset filters" data-category="domain" id="tumorReset">x</button>
+              </h6>
+              <div class="category-entries-container  " id="filters-list3" style="margin-bottom: 10px;">
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T1">
+                  <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="4" height="4" rx="1" />
+                  </svg>T1</button>
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T2">
+                  <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 -1  10 10" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="6" height="6" rx="1" />
+                  </svg>T2</button>
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T3">
+                  <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="8" height="8" rx="1" />
+                  </svg>T3</button>
+                <button type="button" class="btn btn-light  btn-sm category-entry filters-list" id="T4">
+                  <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0  10 10" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="10" height="10" rx="1" />
+                  </svg> T4</button>
+              </div>
+            </div>
+            <div>
+              <h6 class="inline-block panel-label " style="margin-bottom: 5px; margin-top: 2px;  font-weight: bold;">
+                Outcome
+                <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
+                  style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
+                  title="Reset filters" data-category="domain" id="outcomeReset">x</button>
+              </h6>
+              <div class="category-entries-container  " id="filters-list6">
+                <button type="button" class="btn btn-light btn-sm category-entry filters-list"
+                  id="Negative">Negative</button>
+                <button type="button" class="btn btn-light btn-sm category-entry filters-list"
+                  id="Positive">Positive</button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+        <div class="card" id="rules_filters_panel_title"
+          style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 0%; margin-bottom:5px;height: 43.6%">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0 "> Graph Legend</h5>
+          </div>
+          <div class="card-body text-left" style=" font-size: 0.9em; padding: 5px;">
+            <div style="display:flex; flex-direction: row;">
+            <h5 style="margin-right: 20px; margin-top: 7px;">Top 20 rules </h5>
+            <div class="category-entries-container">
+              <button type="button" class="btn btn-light btn-sm rules_button btn_without_categ active" id="Acute">Acute</button>
+              <button type="button" class="btn btn-light btn-sm rules_button btn_without_categ" id="Late">Late</button>
+            </div>
+          </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="4em" height="3em" viewBox="0 0 60 45" fill="#fff" stroke="grey"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="29" cy="20" r="12" />
+              </svg> Association rule
+            </div>
+            <div style="margin-left: 12px;">
+              <svg class="bi bi-circle-fill" width="2em" height="2em" viewBox="0 0 30 20" fill="#fff" stroke="grey"
+                style="margin-right:12px" xmlns="http://www.w3.org/2000/svg">
+                <rect width="30" height="15" rx="1" />
+              </svg> Symptom
+            </div>
+
+            <div style="margin-left: 0px; margin-top:10px;">
+
+              <div style="display: flex; flex-direction: row;">
+                <svg class="bi bi-circle-fill" width="4em" height="2em" viewBox="0 0 60 20" fill="aliceblue"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="60" height="25" rx="1" />
+                  <text x="5" y="15" fill="black" style='font-size:0.8rem'>symptom</text>
+                </svg>
+
+                <i class="long arrow alternate right icon"
+                  style="color:#aaaaaa; opacity:0.8; margin-left:3px; transform: scale(1.5);  margin-top:2px "></i>
+                <div style="margin-top: 5px;"> Antecedent for rule</div>
+              </div>
+            </div>
+
+            <div style="margin-left: -2px;">
+
+              <div style="display: flex; flex-direction: row;">
+                <svg class="bi bi-circle-fill" width="4em" height="2em" viewBox="0 0 60 20" fill="aliceblue"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="60" height="25" rx="1" />
+                  <text x="5" y="15" fill="black" style='font-size:0.8rem'>symptom</text>
+                </svg>
+
+                <i class="long arrow alternate left icon"
+                  style="color:#aaaaaa; opacity:0.8; margin-left:3px; transform: scale(1.5);  margin-top:2px "></i>
+                <div style="margin-top: 5px;"> Consequent for rule</div>
+              </div>
+            </div>
+            <h5 style="">Support</h5>
+            <div style="margin-left:10px; margin-right:10px">
+            <div id="support-slider" class="ui labeled ticked slider"></div>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;  margin-top: -15px;">
+            <div>
+              <svg class="bi bi-circle-fill" width="4em" height="3em" viewBox="0 0 60 45" fill="#aaaaaa"
+                style="opacity: 0.5; margin-top: -5px; margin-left: -20px;" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="29" cy="20" r="8" />
+              </svg>
+            </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="4em" height="3em" viewBox="0 0 60 45" fill="#aaaaaa"
+                style="opacity: 0.5; margin-top: -5px; margin-right:-17px" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="29" cy="20" r="15" />
+              </svg>
+            </div>
+          </div>
+        </div>
+            <h5 style="margin-top: 0px;">Lift</h5>
+            <div style="margin-left:10px; margin-right:10px">
+            <div id="lift-slider" class="ui labeled ticked slider"></div>
+            <div style="display: flex; flex-direction: row; justify-content: space-between;  margin-top: -15px; margin-left:-48px">
+            <div style="">
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#dadaeb"
+                style="margin-left:48px" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="15" />
+              </svg>
+            </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#6a51a3"
+                style="margin-right:-1px" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="15" />
+              </svg>
+            </div>
+          </div>
+          </div>
+            
+          </div>
+        </div>
+
+
+
+
+
+        <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 2%">
+          <div class="card-header filter" style="background:aliceblue">
+            <h5 style="margin: 0;display:none" id="patients_cluster_panel">Cluster by Symptoms
+              <button type="button" class="btn btn-light btn-sm reset-category-filter reset-clustering hidden"
+                style="font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px; "
+                title="Reset filters" data-category="domain" id="filtersResetButton">x</button>
+            </h5>
+            <h5 style="margin: 0" id="rules_cluster_panel">Present Symptoms in Rules
+
+            </h5>
+          </div>
+          <div class="card-body text-left category-entries-container" style=" font-size: 1em !important; padding: 5px">
+
+
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="nauseaFilter">nausea</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="vomitFilter">vomit</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="mucusFilter">mucus</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="breathFilter">breath</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="chokingFilter">chocking</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="swallowFilter">swallow</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="dryMouthFilter">dryMouth</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="teethFilter">teeth</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="speechFilter">speech</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="tasteFilter">taste</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="appetiteFilter">appetite</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="constipationFilter">constipation</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="soresFilter">sores</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="skinFilter">skin</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="painFilter">pain</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="sleepFilter">sleep</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="drowsinessFilter">drowsiness</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="numbnessFilter">numbness</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="fatigueFilter">fatigue</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="distressFilter">distress</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="memoryFilter">memory</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="sadnessFilter">sadness</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="moodFilter">mood</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="enjoymentFilter">enjoyment</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="activitiesFilter">ativities</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="workFilter">work</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list"
+              id="relationsFilter">relations</button>
+            <button type="button" class="btn btn-light btn-sm category-entry filters-symptoms-list "
+              id="walkingFilter">walking</button>
+
+
+          </div>
+        </div>
+
+
+
+        <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 2%">
+          <div class="card-header" style="background:aliceblue">
+            <h5 style="margin: 0 ">Tendril Plot Legend</h5>
+          </div>
+          <div class="card-body text-left"
+            style=" font-size: 0.9em; padding-left: 15px; padding-top: 5px; padding-bottom: 5px;">
+            <div>
+              <i class="long arrow alternate right icon"
+                style="color:#83aad4; opacity:0.8; margin-left:3px; transform: scale(1.5); "></i> Time direction
+            </div>
+            <div>
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#83aad4" opacity="0.65"
+                xmlns="http://www.w3.org/2000/svg" style="width: 10%;">
+                <circle cx="10" cy="10" r="7" />
+              </svg> Time point
+
+            </div>
+
+            <div>
+              <svg style=" transform: rotate(0deg);" fill="#83aad4" id="Solid" height="20" viewBox="0 0 512 512"
+                width="20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m391.968 146.624a341.723 341.723 0 0 1 -27.011 131.284 342.818 342.818 0 0 1 -73.712 109.337 343 343 0 0 1 -243.245 100.755 24 24 0 0 1 0-48 294.062 294.062 0 0 0 209.3-86.7 294 294 0 0 0 86.667-206.59l24.033-32.044zm86.432 48.576a24 24 0 0 0 4.8-33.6l-96-128a24 24 0 0 0 -38.4 0l-96 128a24 24 0 1 0 38.4 28.8l76.8-102.4 76.8 102.4a24 24 0 0 0 33.6 4.8z" />
+              </svg> Rating Decrease
+            </div>
+            <div>
+              <svg id="Solid" style=" transform: rotate(90deg);" height="20" fill="#83aad4" viewBox="0 0 512 512"
+                width="20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m365.291 168.033a295.963 295.963 0 0 0 -293.291 295.967 24 24 0 0 1 -48 0 343.66 343.66 0 0 1 341.376-343.968l31.958 23.968zm-14.891 91.167 128-96a24 24 0 0 0 0-38.4l-128-96a24 24 0 1 0 -28.8 38.4l102.4 76.8-102.4 76.8a24 24 0 1 0 28.8 38.4z" />
+              </svg> Rating Increase
+            </div>
+            <!-- <div>
+              <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="black"
+                xmlns="http://www.w3.org/2000/svg" style="width: 10%;">
+                <circle cx="10" cy="10" r="7" />
+              </svg> Dead patient (last time point)
+            </div> -->
+            <div>
+              <i class="window minimize icon" style="color:red;"></i> Selected Patient
+            </div>
+            <div class="form-check  colored-tendrils-button" style="padding-left: 5px;">
+              <input class="form-check-input " type="checkbox" value="" id="show-colored-tendrils">
+              <label class="form-check-label" for="defaultCheck1"
+                style="margin-left: 20px !important; font-weight: normal;">
+                Color by Therapy
+            </div>
+            <div class="form-check  colored-tendrils-button" style="padding-left: 5px;">
+              <input class="form-check-input " type="checkbox" value="" id="show-mean-tendrils">
+              <label class="form-check-label" for="defaultCheck11"
+                style="margin-left: 20px !important; font-weight: normal;">
+                Show mean values
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="flex-container-column" style="flex:3.8 0 0;">
+
+
+      <div id="scatterplot" style="display: none;"></div>
+      <div onload="main();" style="transform: scale(1);margin:auto; margin-top: 0; margin-bottom: 50px; "
+        id="RulesContainer">
+        <!-- <object data='from_g2_graph.svg' type='image/svg+xml' id="external_svg"></object> -->
+        
+
+
+
+        <script type="text/javascript" src='graph.js'></script>
+
+        <svg id='internal_svg' width="504pt" height="515pt" viewBox="0 0 504 504">
+      
+          
+          <marker id="triangle" viewBox="0 0 10 10"
+                refX="1" refY="5"
+                markerUnits="strokeWidth"
+                markerWidth="10" markerHeight="10"
+                orient="auto">
+            <path d="M 0 0 L 8 4 L 0 8 z" fill="#aaaaaa"/>
+          </marker>
+          
+          <g id="surface1">
+          
+          
+          <path class="graph_line out_pain in_1" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 132.488281 153.773438 L 128.972656 158.765625 L 124.933594 164.484375 L 120.496094 170.761719 L 115.777344 177.441406 L 110.894531 184.359375 L 105.972656 191.359375 L 101.132813 198.277344 L 96.492188 204.949219 L 92.175781 211.21875 L 88.296875 216.921875 "/>
+          <path class="graph_line out_pain in_6" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 121.105469 134.828125 L 116.71875 132.6875 L 112.027344 130.386719 L 107.09375 127.960938 L 101.984375 125.441406 L 96.75 122.855469 L 91.457031 120.242188 L 86.164063 117.625 L 80.933594 115.042969 L 75.820313 112.519531 L 70.890625 110.09375 "/>
+          <path class="graph_line out_pain in_16"  style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 157.261719 144.300781 L 163.824219 144.300781 L 170.976563 144.304688 L 178.578125 144.316406 L 186.496094 144.335938 L 194.585938 144.367188 L 202.71875 144.414063 L 210.753906 144.480469 L 218.558594 144.570313 L 225.992188 144.683594 L 232.917969 144.828125 "/>
+          <path class="graph_line out_distress in_20" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 393.605469 169.035156 L 397.046875 164.773438 L 400.890625 159.960938 L 405.054688 154.707031 L 409.460938 149.121094 L 414.027344 143.3125 L 418.675781 137.394531 L 423.320313 131.480469 L 427.886719 125.671875 L 432.292969 120.085938 L 436.457031 114.832031 "/>
+          <path class="graph_line out_dryMouth in_12"  style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 281.125 413.210938 L 281.964844 414.992188 L 282.875 416.855469 L 283.84375 418.789063 L 284.851563 420.78125 L 285.894531 422.816406 L 286.957031 424.882813 L 288.027344 426.964844 L 289.09375 429.058594 L 290.144531 431.144531 L 291.167969 433.207031 "/>
+          <path class="graph_line out_dryMouth in_14" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 248.988281 402.6875 L 244.476563 402.527344 L 239.804688 402.371094 L 235.023438 402.210938 L 230.175781 402.054688 L 225.300781 401.898438 L 220.449219 401.738281 L 215.660156 401.582031 L 210.980469 401.421875 L 206.449219 401.265625 L 202.121094 401.109375 "/>
+          <path class="graph_line out_dryMouth in_17"  style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 285.140625 394.265625 L 289.71875 389.304688 L 294.910156 383.675781 L 300.582031 377.535156 L 306.578125 371.035156 L 312.761719 364.335938 L 318.984375 357.589844 L 325.101563 350.949219 L 330.96875 344.574219 L 336.445313 338.613281 L 341.382813 333.222656 "/>
+          <path class="graph_line out_sadness in_19" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 390.257813 127.460938 L 394.542969 131.316406 L 399.296875 135.566406 L 404.425781 140.128906 L 409.84375 144.933594 L 415.449219 149.890625 L 421.160156 154.929688 L 426.875 159.96875 L 432.507813 164.929688 L 437.964844 169.730469 L 443.152344 174.296875 "/>
+          <path class="graph_line out_mucus in_2"  style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 269.742188 353.746094 L 265.574219 351.289063 L 261.140625 348.675781 L 256.496094 345.945313 L 251.703125 343.128906 L 246.8125 340.261719 L 241.878906 337.378906 L 236.964844 334.511719 L 232.121094 331.703125 L 227.40625 328.980469 L 222.875 326.382813 "/>
+          <path class="graph_line out_mucus in_4" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 265.054688 366.902344 L 257.910156 368.066406 L 250.21875 369.328125 L 242.128906 370.65625 L 233.773438 372.03125 L 225.300781 373.414063 L 216.847656 374.78125 L 208.558594 376.109375 L 200.566406 377.359375 L 193.015625 378.511719 L 186.050781 379.53125 "/>
+          <path class="graph_line out_mucus in_9"  style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 297.863281 353.746094 L 302.40625 349.703125 L 307.519531 345.210938 L 313.101563 340.359375 L 319.042969 335.238281 L 325.230469 329.933594 L 331.558594 324.53125 L 337.921875 319.125 L 344.207031 313.800781 L 350.304688 308.648438 L 356.113281 303.753906 "/>
+          <path class="graph_line out_mucus in_13" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 300.542969 372.691406 L 304.546875 375.492188 L 308.890625 378.507813 L 313.507813 381.695313 L 318.335938 385.007813 L 323.304688 388.414063 L 328.355469 391.863281 L 333.421875 395.320313 L 338.441406 398.742188 L 343.347656 402.089844 L 348.078125 405.316406 "/>
+          <path class="graph_line out_swallow in_3"  style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 267.066406 246.917969 L 263.679688 249.734375 L 259.996094 252.792969 L 256.066406 256.035156 L 251.960938 259.421875 L 247.730469 262.902344 L 243.441406 266.429688 L 239.15625 269.960938 L 234.925781 273.441406 L 230.820313 276.828125 L 226.890625 280.070313 "/>
+          <path class="graph_line out_swallow in_8" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 303.890625 246.917969 L 305.699219 247.566406 L 307.511719 248.234375 L 309.332031 248.925781 L 311.164063 249.628906 L 313.011719 250.339844 L 314.878906 251.046875 L 316.773438 251.75 L 318.695313 252.441406 L 320.648438 253.113281 L 322.636719 253.757813 "/>
+          <path class="graph_line out_swallow in_10"  style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 269.742188 227.445313 L 266.136719 223.9375 L 262.199219 220.085938 L 258 215.953125 L 253.597656 211.609375 L 249.070313 207.121094 L 244.484375 202.554688 L 239.902344 197.972656 L 235.398438 193.449219 L 231.039063 189.042969 L 226.890625 184.820313 "/>
+          <path class="graph_line out_swallow in_15" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 279.785156 227.445313 L 280.023438 223.359375 L 280.332031 218.746094 L 280.695313 213.707031 L 281.101563 208.351563 L 281.542969 202.78125 L 282.003906 197.097656 L 282.472656 191.410156 L 282.933594 185.820313 L 283.382813 180.429688 L 283.804688 175.347656 "/>
+          <path class="graph_line out_swallow in_18" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 282.464844 246.917969 L 283.78125 251.335938 L 285.300781 256.292969 L 286.984375 261.675781 L 288.785156 267.363281 L 290.664063 273.230469 L 292.585938 279.164063 L 294.507813 285.039063 L 296.390625 290.734375 L 298.191406 296.136719 L 299.871094 301.121094 "/>
+          <path class="graph_line out_taste in_1" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 101.019531 307.4375 L 99.519531 302.457031 L 97.855469 296.78125 L 96.058594 290.5625 L 94.175781 283.953125 L 92.230469 277.113281 L 90.269531 270.191406 L 88.324219 263.347656 L 86.429688 256.730469 L 84.625 250.503906 L 82.941406 244.8125 "/>
+          <path class="graph_line out_taste in_2" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 121.773438 316.382813 L 126.804688 316.367188 L 132.191406 316.324219 L 137.863281 316.253906 L 143.734375 316.164063 L 149.726563 316.054688 L 155.761719 315.929688 L 161.753906 315.789063 L 167.625 315.640625 L 173.296875 315.488281 L 178.6875 315.328125 "/>
+          <path class="graph_line out_taste in_3" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 121.773438 312.699219 L 127.460938 311.535156 L 133.605469 310.265625 L 140.105469 308.914063 L 146.851563 307.503906 L 153.746094 306.054688 L 160.679688 304.589844 L 167.546875 303.132813 L 174.246094 301.703125 L 180.671875 300.324219 L 186.71875 299.015625 "/>
+          <path class="graph_line out_taste in_4" style="transform:translate(-3px,-10px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 112.402344 326.382813 L 115.804688 330.0625 L 119.535156 334.101563 L 123.527344 338.421875 L 127.699219 342.933594 L 131.984375 347.5625 L 136.3125 352.222656 L 140.605469 356.832031 L 144.796875 361.308594 L 148.808594 365.570313 L 152.574219 369.53125 "/>
+          <path class="graph_line out_taste in_7" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 97.671875 307.4375 L 94.394531 302.269531 L 90.660156 296.359375 L 86.574219 289.875 L 82.234375 282.984375 L 77.753906 275.863281 L 73.230469 268.675781 L 68.773438 261.597656 L 64.484375 254.796875 L 60.46875 248.441406 L 56.832031 242.707031 "/>
+          <path class="graph_line out_taste in_14" style="transform:translate(-17px,-5px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 112.402344 326.382813 L 116.960938 331.203125 L 122.105469 336.714844 L 127.714844 342.769531 L 133.644531 349.199219 L 139.769531 355.851563 L 145.953125 362.566406 L 152.066406 369.1875 L 157.972656 375.554688 L 163.542969 381.511719 L 168.644531 386.898438  L 178.644531 396.898438 "/>
+          <path class="graph_line out_sores in_5" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 88.96875 149.035156 L 90.488281 144.617188 L 92.207031 139.640625 L 94.089844 134.207031 L 96.09375 128.425781 L 98.175781 122.394531 L 100.296875 116.222656 L 102.417969 110.015625 L 104.5 103.871094 L 106.503906 97.898438 L 108.382813 92.203125 "/>
+          <path class="graph_line out_sores in_7" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 80.265625 167.980469 L 78.304688 171.867188 L 76.082031 176.191406 L 73.648438 180.863281 L 71.0625 185.789063 L 68.378906 190.875 L 65.65625 196.019531 L 62.949219 201.136719 L 60.316406 206.125 L 57.8125 210.890625 L 55.492188 215.34375 "/>
+          <path class="graph_line out_sores in_11" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 106.375 167.980469 L 111.128906 170.109375 L 116.109375 172.363281 L 121.265625 174.722656 L 126.546875 177.152344 L 131.902344 179.625 L 137.277344 182.113281 L 142.617188 184.589844 L 147.875 187.027344 L 152.996094 189.394531 L 157.929688 191.664063 "/>
+          <path class="graph_line out_1 in_sores" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 79.59375 220.078125 L 80.015625 216.210938 L 80.46875 211.929688 L 80.945313 207.324219 L 81.4375 202.492188 L 81.9375 197.515625 L 82.4375 192.496094 L 82.929688 187.519531 L 83.40625 182.679688 L 83.859375 178.066406 L 84.28125 173.769531 "/>
+          <path class="graph_line out_2 in_swallow" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 214.171875 304.277344 L 218.472656 299.75 L 223.261719 294.761719 L 228.429688 289.417969 L 233.859375 283.828125 L 239.445313 278.097656 L 245.070313 272.339844 L 250.625 266.652344 L 255.992188 261.152344 L 261.0625 255.941406 L 265.726563 251.128906 "/>
+          <path class="graph_line out_3 in_mucus" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 221.535156 304.277344 L 225.796875 308.132813 L 230.488281 312.371094 L 235.503906 316.90625 L 240.753906 321.648438 L 246.140625 326.511719 L 251.570313 331.40625 L 256.941406 336.246094 L 262.15625 340.9375 L 267.128906 345.398438 L 271.75 349.535156 "/>
+          <path class="graph_line out_4 in_dryMouth" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 178.6875 385.847656 L 183.792969 386.695313 L 189.414063 387.65625 L 195.460938 388.710938 L 201.847656 389.847656 L 208.480469 391.042969 L 215.273438 392.289063 L 222.140625 393.5625 L 228.992188 394.855469 L 235.738281 396.148438 L 242.292969 397.425781 "/>
+          <path class="graph_line out_5 in_pain" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 123.113281 87.464844 L 124.175781 91.515625 L 125.332031 95.730469 L 126.5625 100.058594 L 127.839844 104.449219 L 129.140625 108.84375 L 130.441406 113.191406 L 131.71875 117.441406 L 132.949219 121.53125 L 134.105469 125.417969 L 135.164063 129.039063 "/>
+          <path class="graph_line out_6 in_sores" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 55.492188 114.304688 L 57.519531 117.191406 L 59.574219 120.148438 L 61.644531 123.15625 L 63.71875 126.195313 L 65.785156 129.238281 L 67.832031 132.265625 L 69.847656 135.253906 L 71.816406 138.183594 L 73.730469 141.03125 L 75.578125 143.773438 "/>
+          <path class="graph_line out_7 in_pain" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 56.160156 221.660156 L 61.292969 216.90625 L 67.316406 211.292969 L 74.050781 205.007813 L 81.304688 198.226563 L 88.882813 191.136719 L 96.605469 183.921875 L 104.28125 176.761719 L 111.714844 169.84375 L 118.726563 163.347656 L 125.121094 157.457031 "/>
+          <path class="graph_line out_8 in_mucus" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 340.714844 285.859375 L 336.53125 291.777344 L 332.070313 298.085938 L 327.414063 304.671875 L 322.652344 311.421875 L 317.867188 318.222656 L 313.140625 324.960938 L 308.558594 331.523438 L 304.203125 337.792969 L 300.164063 343.660156 L 296.523438 349.007813 "/>
+          <path class="graph_line out_9 in_swallow" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 355.441406 271.652344 L 350.730469 269.554688 L 345.855469 267.382813 L 340.859375 265.152344 L 335.785156 262.886719 L 330.671875 260.601563 L 325.554688 258.316406 L 320.480469 256.046875 L 315.484375 253.816406 L 310.609375 251.644531 L 305.898438 249.550781 "/>
+          <path class="graph_line out_10 in_sores" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 190.738281 166.929688 L 184.828125 166.441406 L 178.414063 165.921875 L 171.585938 165.378906 L 164.449219 164.816406 L 157.09375 164.230469 L 149.617188 163.632813 L 142.117188 163.019531 L 134.6875 162.398438 L 127.429688 161.769531 L 120.4375 161.140625 "/>
+          <path class="graph_line out_11 in_swallow" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 198.773438 208.503906 L 202.960938 209.984375 L 207.453125 211.570313 L 212.199219 213.25 L 217.132813 214.996094 L 222.207031 216.789063 L 227.359375 218.617188 L 232.535156 220.460938 L 237.679688 222.292969 L 242.734375 224.101563 L 247.648438 225.867188 "/>
+          <path class="graph_line out_12 in_mucus" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 299.871094 437.417969 L 298.832031 431.832031 L 297.730469 425.878906 L 296.585938 419.667969 L 295.425781 413.304688 L 294.265625 406.894531 L 293.121094 400.550781 L 292.023438 394.378906 L 290.980469 388.480469 L 290.019531 382.972656 L 289.160156 377.953125 "/>
+          <path class="graph_line out_13 in_dryMouth" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 347.410156 417.949219 L 343.9375 417.160156 L 340.367188 416.375 L 336.714844 415.59375 L 333 414.824219 L 329.246094 414.066406 L 325.476563 413.324219 L 321.703125 412.601563 L 317.949219 411.902344 L 314.238281 411.226563 L 310.585938 410.582031 "/>
+          <path class="graph_line out_14 in_mucus" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 194.085938 395.84375 L 199.230469 394.003906 L 204.949219 391.976563 L 211.132813 389.796875 L 217.675781 387.5 L 224.464844 385.125 L 231.398438 382.699219 L 238.359375 380.257813 L 245.25 377.84375 L 251.949219 375.484375 L 258.359375 373.21875 "/>
+          <path class="graph_line out_15 in_pain" style="transform:translate(10px,2px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 268.402344 155.351563 L 260.109375 154.660156 L 250.664063 153.867188 L 240.316406 152.988281 L 229.324219 152.050781 L 217.9375 151.074219 L 206.410156 150.085938 L 194.996094 149.101563 L 183.945313 148.144531 L 173.515625 147.238281 L 163.957031 146.40625 L 153.957031 145.40625"/>
+          <path class="graph_line out_16 in_swallow" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 259.699219 157.984375 L 261.160156 163.390625 L 262.71875 169.410156 L 264.351563 175.894531 L 266.03125 182.703125 L 267.734375 189.6875 L 269.4375 196.707031 L 271.117188 203.609375 L 272.746094 210.253906 L 274.304688 216.492188 L 275.769531 222.183594 "/>
+          <path class="graph_line out_17 in_swallow" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 345.398438 313.226563 L 341.207031 308.515625 L 336.351563 303.027344 L 330.988281 296.929688 L 325.25 290.382813 L 319.289063 283.558594 L 313.246094 276.625 L 307.269531 269.746094 L 301.5 263.09375 L 296.085938 256.832031 L 291.167969 251.128906 "/>
+          <path class="graph_line out_18 in_dryMouth" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 301.210938 324.800781 L 299.671875 329.8125 L 297.902344 335.570313 L 295.945313 341.917969 L 293.851563 348.691406 L 291.671875 355.71875 L 289.449219 362.84375 L 287.234375 369.898438 L 285.078125 376.71875 L 283.023438 383.144531 L 281.125 389.003906 "/>
+          <path class="graph_line out_19 in_distress" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 439.804688 187.980469 L 437.558594 187.519531 L 435.242188 187.085938 L 432.871094 186.671875 L 430.453125 186.269531 L 428.003906 185.875 L 425.535156 185.476563 L 423.058594 185.074219 L 420.585938 184.660156 L 418.128906 184.226563 L 415.703125 183.769531 "/>
+          <path class="graph_line out_20 in_sadness" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 431.101563 101.675781 L 428.632813 102.480469 L 426.066406 103.308594 L 423.417969 104.15625 L 420.710938 105.015625 L 417.960938 105.886719 L 415.191406 106.753906 L 412.425781 107.613281 L 409.675781 108.460938 L 406.96875 109.289063 L 404.320313 110.09375 "/>
+          
+          <circle class="graph_circle rule_acute_1" cx="77.976563" cy="229.078125" r="12" style="opacity: 1;" fill="#6a51a3" id="rule_acute_1"></circle>
+          <circle class="graph_circle rule_acute_2" cx="201.867188" cy="317.804688" r="17" style="opacity: 1;" fill="#807dba" id="rule_acute_2"></circle>
+          <circle class="graph_circle rule_acute_3" cx="205.5625" cy="283.753906" r="17" style="opacity: 1;" fill="#9e9ac8" id="rule_acute_3"></circle>
+          <circle class="graph_circle rule_acute_14" cx="180.355469" cy="404.214844" r="15" style="opacity: 1;" fill="#bcbddc" id="rule_acute_14"></circle>
+          <circle class="graph_circle rule_acute_4" cx="167.355469" cy="373.214844" r="15" style="opacity: 1;" fill="#9e9ac8" id="rule_acute_4"></circle>
+          <circle class="graph_circle rule_acute_5" cx="122.53125" cy="73.46875" r="20" style="opacity: 1;" fill="#9e9ac8" id="rule_acute_5"></circle>
+          <circle class="graph_circle rule_acute_6" cx="48.550781" cy="94.9375" r="20" style="opacity: 1;" fill="#9e9ac8" id="rule_acute_6"></circle>
+          <circle class="graph_circle rule_acute_7" cx="52.179688" cy="229.550781" r="11" style="opacity: 1;" fill="#9e9ac8" id="rule_acute_7"></circle>
+          <circle class="graph_circle rule_acute_8" cx="347.5625" cy="265.863281" r="21" style="opacity: 1;" fill="#bcbddc" id="rule_acute_8"></circle>
+          <circle class="graph_circle rule_acute_9" cx="379.007813" cy="293.703125" r="21" style="opacity: 1;" fill="#bcbddc" id="rule_acute_9"></circle>
+          <circle class="graph_circle rule_acute_10" cx="204.570313" cy="170.507813" r="20" style="opacity: 1;" fill="#bcbddc" id="rule_acute_10"></circle>
+          <circle class="graph_circle rule_acute_11" cx="180.109375" cy="200.1875" r="20" style="opacity: 1;" fill="#bcbddc" id="rule_acute_11"></circle>
+          <circle class="graph_circle rule_acute_12" cx="300" cy="456.46875" r="20" style="opacity: 1;" fill="#bcbddc" id="rule_acute_12"></circle>
+          <circle class="graph_circle rule_acute_13" cx="365.300781" cy="420.683594" r="20" style="opacity: 1;" fill="#bcbddc" id="rule_acute_13"></circle>
+          <circle class="graph_circle rule_acute_15" cx="288.300781" cy="154.929688" r="17" style="opacity: 1;" fill="#dadaeb" id="rule_acute_15"></circle>
+          <circle class="graph_circle rule_acute_16" cx="255.300781" cy="144.828125" r="17" style="opacity: 1;" fill="#dadaeb" id="rule_acute_16"></circle>
+          <circle class="graph_circle rule_acute_17" cx="349.300781" cy="319.117188" r="12" style="opacity: 1;" fill="#dadaeb" id="rule_acute_17"></circle>
+          <circle class="graph_circle rule_acute_18" cx="300.300781" cy="316.328125" r="12" style="opacity: 1;" fill="#dadaeb" id="rule_acute_18"></circle>
+          <circle class="graph_circle rule_acute_19" cx="461.332031" cy="188.664063" r="19" style="opacity: 1;" fill="#dadaeb" id="rule_acute_19"></circle>
+          <circle class="graph_circle rule_acute_20" cx="450.621094" cy="96.832031" r="19" style="opacity: 1;" fill="#dadaeb" id="rule_acute_20"></circle>
+
+          <rect class="graph_symptom_container"  id="pain_acute_symp" x="125.105469" y="133.246094" height="18" width="30" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="pain_acute_text" x="127.105469" y="145.246094" style='font-size:0.8em; font-family:sans-serif'>pain</text>
+          
+          <rect class="graph_symptom_container"  id="distress_acute_symp" x="360.476563" y="167.980469" height="18" width="50" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="distress_acute_text" x="363.476563" y="177.980469" style='font-size:0.8em; font-family:sans-serif'>distress</text>
+  
+          <rect class="graph_symptom_container"  id="dryMouth_acute_symp" x="246.988281" y="395.210938" height="18" width="58" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="dryMouth_acute_text" x="247.988281" y="408.980469" style='font-size:0.8em; font-family:sans-serif'>dryMouth</text>
+          
+          <rect class="graph_symptom_container"  id="sadness_acute_symp" x="347.140625" y="107.460938" height="18" width="53" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="sadness_acute_text" x="350.140625" y="120.460938" style='font-size:0.8em; font-family:sans-serif'>sadness</text>
+          
+          <rect class="graph_symptom_container"  id="mucus_acute_symp" x="265.054688" y="354.691406" height="18" width="50" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="mucus_acute_text" x="270.0546885" y="367.691406" style='font-size:0.8em; font-family:sans-serif'>mucus</text>
+          
+          <rect class="graph_symptom_container"  id="swallow_acute_symp" x="254.34375" y="227.390625" height="18" width="55" style="opacity: 1;" fill="aliceblue"></rect>
+          <text  class="graph_symptom_text" id="swallow_acute_text" x="258.34375" y="239.390625" style='font-size:0.8em; font-family:sans-serif'>swallow</text>
+          
+          <rect class="graph_symptom_container"  id="taste_acute_symp" x="85.621094" y="306.382813" height="18" width="40" style="opacity: 1;" fill="aliceblue"></rect>
+          <text  class="graph_symptom_text" id="taste_acute_text" x="90.621094" y="319.382813" style='font-size:0.8em; font-family:sans-serif'>taste</text>
+          
+          <rect   class="graph_symptom_container" id="sores_acute_symp"  x="58.167969" y="147.980469" height="18" width="45" style="opacity: 1;" fill="aliceblue"></rect>
+          <text  class="graph_symptom_text" id="sores_acute_text" x="61.167969" y="159.980469" style='font-size:0.8em; font-family:sans-serif'>sores</text>
+
+          </g>
+          </svg>
+          
+
+      </div>
+
+      <div onload="main();" style="transform: scale(1.5);margin:auto; margin-top: 0; margin-bottom: 50px; opacity:0;"
+        id="RulesContainer2">
+        <!-- <object data='from_g3_graph.svg' type='image/svg+xml' id="external_svg2"></object> -->
+        <script type="text/javascript" src='graph.js'></script>
+
+        <svg id='internal_svg2' width="504pt" height="525pt" viewBox="0 0 504 504" version="1.1" style="margin-top:-20px; margin-left:-30px">
+          <defs>
+          
+          <marker id="triangle2" viewBox="0 0 10 10"
+                refX="1" refY="5"
+                markerUnits="strokeWidth"
+                markerWidth="10" markerHeight="10"
+                orient="auto">
+            <path d="M 0 0 L 8 4 L 0 8 z" fill="#aaaaaa"/>
+          </marker>
+          </defs>
+          <g id="surface2">
+          <rect x="0" y="0" width="504" height="504" style="fill:rgb(100%,100%,100%);fill-opacity:1;stroke:none;"/>
+          
+          <path class="graph_line out2_pain in2_13" style="transform:translate(1px,39px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 314.414063 128.25 L 311.804688 126.210938 L 308.921875 123.980469 L 305.824219 121.601563 L 302.585938 119.121094 L 299.269531 116.585938"/>
+          <path class="graph_line out2_pain in2_14" style="transform:translate(0px,40px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 322.570313 139.265625 L 322.972656 141.726563 L 323.433594 144.46875 L 323.9375 147.441406 L 324.46875 150.570313 L 325.019531 153.800781 L 325.566406 157.066406 "/>
+          <path class="graph_line out2_fatigue in2_11" style="transform:translate(0px,20px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 336.847656 220.351563 L 338.296875 217.757813 L 339.929688 214.804688 L 341.703125 211.570313 L 343.578125 208.140625 L 345.515625 204.59375 L 347.480469 201.007813  "/>
+          <path class="graph_line out2_fatigue in2_14" style="transform:translate(0px,20px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 333.175781 220.351563 L 332.921875 217.675781 L 332.640625 214.652344 L 332.34375 211.363281 L 332.027344 207.882813 L 331.699219 204.289063 L 331.355469 200.65625"/>
+          <path class="graph_line out2_fatigue in2_20" style="transform:translate(4px,19px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 336.03125 231.367188 L 336.703125 233.417969 L 337.476563 235.691406 L 338.34375 238.148438 L 339.277344 240.761719 L 340.265625 243.492188 L 341.289063 246.304688 "/>
+          <path class="graph_line out2_sleep in2_17" style="transform:translate(-30px,0px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 462.898438 335.707031 L 459.710938 335.808594 L 456.304688 335.925781 L 452.726563 336.054688 L 449.027344 336.199219 L 445.253906 336.355469 L 441.457031 336.523438 "/>
+          <path class="graph_line out2_drowsiness in2_7" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 344.191406 329.28125 L 346.210938 332.183594 L 348.546875 335.507813 L 351.128906 339.152344 L 353.882813 343.023438 L 356.734375 347.027344 L 359.609375 351.070313"/>
+          <path class="graph_line out2_drowsiness in2_10" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 329.914063 329.28125 L 326.582031 331.101563 L 323 333.050781 L 319.234375 335.089844 L 315.347656 337.1875 L 311.402344 339.300781 L 307.472656 341.398438 L 303.625 343.4375"/>
+          <path class="graph_line out2_drowsiness in2_18" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 353.980469 321.9375 L 357.789063 321.453125 L 361.835938 320.925781 L 366.0625 320.363281 L 370.414063 319.777344 L 374.835938 319.183594 L 379.269531 318.589844 "/>
+          <path class="graph_line out2_drowsiness in2_19" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 337.257813 318.265625 L 336.074219 315.996094 L 334.742188 313.445313 L 333.292969 310.660156 L 331.742188 307.6875 L 330.117188 304.574219 L 328.445313 301.367188 "/>
+          <path class="graph_line out2_dryMouth in2_16" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 202.640625 242.078125 L 204.738281 239.597656 L 207.082031 236.796875 L 209.628906 233.738281 L 212.328125 230.476563 L 215.132813 227.082031 L 218 223.613281"/>
+          <path class="graph_line out2_swallow in2_11" style="transform:translate(-15px,33px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 392.328125 166.5 L 390.089844 167.34375 L 387.800781 168.214844 L 385.476563 169.109375 L 383.136719 170.019531 L 380.800781 170.933594 L 378.492188 171.851563"/>
+          <path class="graph_line out2_taste in2_15" style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 200.601563 218.210938 L 203.222656 220.386719 L 206.148438 222.835938 L 209.320313 225.507813 L 212.675781 228.34375 L 216.152344 231.289063 L 219.691406 234.292969"/>
+          <path class="graph_line out2_sores in2_12" style="transform:translate(15px,58px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 307.886719 58.488281 L 310.472656 60.417969 L 313.292969 62.511719 L 316.296875 64.730469 L 319.425781 67.035156 L 322.621094 69.386719 L 325.832031 71.75 "/>
+          <path class="graph_line out2_activities in2_1" style="transform:translate(20px,-12px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 249.550781 397.210938 L 252.613281 398.875 L 255.886719 400.75 L 259.3125 402.808594 L 262.828125 405.039063 L 266.378906 407.421875 L 269.90625 409.941406 L 284.90625 419.941406"/>
+          <path class="graph_line out2_activities in2_5" style="transform:translate(29px,-15px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 230.378906 397.210938 L 227.417969 399.046875 L 224.199219 401.046875 L 220.789063 403.167969 L 217.253906 405.371094 L 213.65625 407.613281 L 210.054688 409.855469"/>
+          <path class="graph_line out2_activities in2_9" style="transform:translate(29px,-17px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 242.210938 386.195313 L 243.695313 383.179688 L 245.417969 379.71875 L 247.328125 375.90625 L 249.371094 371.847656 L 251.488281 367.644531 L 253.636719 363.390625"/>
+          <path class="graph_line out2_mood in2_4" style="transform:translate(65px,-23px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 120.238281 433.925781 L 118.535156 436.519531 L 116.628906 439.472656 L 114.5625 442.707031 L 112.386719 446.136719 L 110.144531 449.683594 L 107.875 453.269531"/>
+          <path class="graph_line out2_mood in2_6" style="transform:translate(60px,-19px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 130.4375 422.910156 L 133.035156 420.753906 L 135.886719 418.359375 L 138.9375 415.789063 L 142.121094 413.089844 L 145.378906 410.328125 L 148.648438 407.554688"/>
+          <path class="graph_line out2_work in2_2" style="transform:translate(18px,-27px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 331.546875 418.015625 L 327.8125 418.59375 L 323.765625 419.210938 L 319.476563 419.867188 L 315.027344 420.542969 L 310.484375 421.230469 L 305.933594 421.914063"/>
+          <path class="graph_line out2_work in2_8" style="transform:translate(-1px,-18px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 343.375 410.671875 L 343.644531 407.886719 L 343.949219 404.722656 L 344.285156 401.257813 L 344.640625 397.582031 L 345.007813 393.765625 L 345.371094 389.898438"/>
+          <path class="graph_line out2_enjoyment in2_3" style="transform:translate(90px,-24px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 33.351563 465.75 L 34.9375 463.179688 L 36.71875 460.300781 L 38.660156 457.175781 L 40.714844 453.882813 L 42.835938 450.488281 L 44.984375 447.066406"/>
+          <path class="graph_line out2_1 in2_work" style="transform:translate(30px,-28px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 298.09375 436.679688 L 300.660156 435.527344 L 303.425781 434.28125 L 306.351563 432.964844 L 309.398438 431.589844 L 312.527344 430.179688"/>
+          <path class="graph_line out2_2 in2_activities" style="transform:translate(33px,-25px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 269.949219 420.769531 L 268.019531 418.9375 L 265.929688 416.957031 L 263.714844 414.859375 L 261.40625 412.675781 L 259.035156 410.441406 L 256.644531 408.191406 "/>
+          <path class="graph_line out2_3 in2_mood" style="transform:translate(80px,-15px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 65.171875 426.890625 L 68.472656 426.980469 L 72.207031 427.074219 L 76.285156 427.164063 L 80.632813 427.257813 L 85.160156 427.347656 L 89.78125 427.441406"/>
+          <path class="graph_line out2_4 in2_enjoyment" style="transform:translate(82px,-33px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 87.199219 473.703125 L 84.019531 473.59375 L 80.40625 473.453125 L 76.449219 473.289063 L 72.226563 473.101563 L 67.820313 472.902344 L 63.320313 472.691406 "/>
+          <path class="graph_line out2_5 in2_mood" style="transform:translate(51px,-18px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 180.207031 424.441406 L 176.9375 424.640625 L 173.304688 424.875 L 169.375 425.132813 L 165.226563 425.410156 L 160.929688 425.703125 L 156.5625 426.003906"/>
+          <path class="graph_line out2_6 in2_activities" style="transform:translate(49px,-12px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 176.535156 390.785156 L 179.144531 390.867188 L 182.058594 390.933594 L 185.230469 390.992188 L 188.621094 391.042969 L 192.1875 391.089844 L 195.890625 391.136719"/>
+          <path class="graph_line out2_7 in2_work" style="transform:translate(-2px,-15px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 371.929688 378.542969 L 370.089844 380.921875 L 368.027344 383.597656 L 365.789063 386.515625 L 363.417969 389.609375 L 360.96875 392.808594 L 358.476563 396.058594"/>
+          <path class="graph_line out2_8 in2_drowsiness" style="transform:translate(-2px,-8px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 346.640625 361.101563 L 346.238281 358.828125 L 345.777344 356.265625 L 345.273438 353.472656 L 344.738281 350.515625 L 344.191406 347.449219 L 343.644531 344.335938"/>
+          <path class="graph_line out2_9 in2_drowsiness" style="transform:translate(19px,-3px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 272.804688 338.15625 L 276.53125 337.359375 L 280.796875 336.457031 L 285.496094 335.464844 L 290.53125 334.40625 L 295.800781 333.296875 L 301.207031 332.164063"/>
+          <path class="graph_line out2_10 in2_activities" style="transform:translate(15px,-5px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 278.515625 358.347656 L 276.140625 360.339844 L 273.460938 362.605469 L 270.542969 365.089844 L 267.445313 367.730469 L 264.238281 370.472656 L 260.980469 373.265625"/>
+          <path class="graph_line out2_11 in2_pain" style="transform:translate(-3px,28px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 355.207031 174.453125 L 353.085938 171.859375 L 350.683594 168.90625 L 348.0625 165.675781 L 345.285156 162.246094 L 342.40625 158.695313 L 339.492188 155.109375"/>
+          <path class="graph_line out2_12 in2_pain" style="transform:translate(0px,52px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 343.375 92.757813 L 342.035156 95.34375 L 340.496094 98.273438 L 338.800781 101.476563 L 336.992188 104.878906 L 335.113281 108.398438 L 333.214844 111.96875"/>
+          <path class="graph_line out2_13 in2_sores" style="transform:translate(13px,48px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 278.105469 92.449219 L 279.546875 89.964844 L 281.144531 87.148438 L 282.871094 84.070313 L 284.691406 80.804688 L 286.570313 77.417969 L 288.476563 73.988281"/>
+          <path class="graph_line out2_14 in2_swallow" style="transform:translate(-2px,25px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 336.847656 176.597656 L 340.601563 175.710938 L 344.929688 174.714844 L 349.726563 173.628906 L 354.886719 172.480469 L 360.304688 171.28125 L 365.867188 170.054688"/>
+          <path class="graph_line out2_15 in2_dryMouth" style="transform:translate(-7px,-5px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 231.605469 253.398438 L 230.367188 253.207031 L 229.109375 253 L 227.832031 252.78125 L 226.539063 252.554688 L 225.230469 252.328125 L 223.910156 252.097656"/>
+          <path class="graph_line out2_16 in2_taste" style="transform:translate(-9px,10px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 225.894531 202.910156 L 224.390625 203.378906 L 222.820313 203.863281 L 221.199219 204.363281 L 219.535156 204.875 L 217.835938 205.398438 L 216.113281 205.929688"/>
+          <path class="graph_line out2_17 in2_drowsiness" style="transform:translate(-10px,-2px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 401.707031 335.707031 L 398.085938 335.019531 L 394.113281 334.261719 L 389.863281 333.441406 L 385.40625 332.578125 L 380.800781 331.691406 "/>
+          <path class="graph_line out2_18 in2_sleep" style="transform:translate(-17px,0px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 420.472656 317.652344 L 423.71875 318.714844 L 427.285156 319.867188 L 431.105469 321.097656 L 435.113281 322.378906 L 439.238281 323.695313 "/>
+          <path class="graph_line out2_19 in2_fatigue" style="transform:translate(2px,13px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 318.898438 260.742188 L 320.023438 258.195313 L 321.183594 255.535156 L 322.371094 252.800781 L 323.566406 250.023438 L 324.765625 247.238281 L 325.949219 244.484375 "/>
+          <path class="graph_line out2_20 in2_drowsiness" style="transform:translate(3px,10px);fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(27.843137%,27.843137%,27.843137%);stroke-opacity:1;stroke-miterlimit:10;" d="M 348.269531 286.445313 L 347.648438 289.191406 L 347.007813 292.078125 L 346.359375 295.066406 L 345.707031 298.109375 L 345.058594 301.167969 L 344.421875 304.199219 "/>
+          
+       
+          <circle class="graph_circle rule_late_1" cx="318.320313" cy="412.351563" r="10" style="opacity: 1;" fill="#6a51a3" id="rule_late_1"></circle>
+          <circle class="graph_circle rule_late_2" cx="310.042969" cy="393.277344" r="10" style="opacity: 1;" fill="#6a51a3" id="rule_late_2"></circle>
+          <circle class="graph_circle rule_late_3" cx="142.171875" cy="412.582031" r="8" style="opacity: 1;" fill="#807dba" id="rule_late_3"></circle>
+          <circle class="graph_circle rule_late_4" cx="164.882813" cy="439.011719" r="8" style="opacity: 1;" fill="#807dba" id="rule_late_4"></circle>
+          <circle class="graph_circle rule_late_5" cx="228.296875" cy="400.828125" r="8" style="opacity: 1;" fill="#807dba" id="rule_late_5"></circle>
+          <circle class="graph_circle rule_late_6" cx="218.535156" cy="380.648438" r="8" style="opacity: 1;" fill="#807dba" id="rule_late_6"></circle>
+          <circle class="graph_circle rule_late_7" cx="367.945313" cy="360.648438" r="8" style="opacity: 1;" fill="#9e9ac8" id="rule_late_7"></circle>
+          <circle class="graph_circle rule_late_8" cx="345.796875" cy="360.917969" r="8" style="opacity: 1;" fill="#9e9ac8" id="rule_late_8"></circle>
+          <circle class="graph_circle rule_late_9" cx="290.210938" cy="336.683594" r="8" style="opacity: 1;" fill="#9e9ac8" id="rule_late_9"></circle>
+          <circle class="graph_circle rule_late_10" cx="294.160156" cy="352.066406" r="8" style="opacity: 1;" fill="#9e9ac8" id="rule_late_10"></circle>
+          <circle class="graph_circle rule_late_11"  cx="352.035156" cy="209.351563" r="8" style="opacity: 1;" fill="#9e9ac8" id="rule_late_11"></circle>
+          <circle class="graph_circle rule_late_12" cx="347.980469" cy="138.945313" r="8" style="opacity: 1;" fill="#9e9ac8" id="rule_late_12"></circle>
+          <circle class="graph_circle rule_late_13" cx="292.003906" cy="147.265625" r="8" style="opacity: 1;" fill="#9e9ac8" id="rule_late_13"></circle>
+          <circle class="graph_circle rule_late_14" cx="328.847656" cy="208.125" r="8" style="opacity: 1;" fill="#bcbddc" id="rule_late_14"></circle>
+          <circle class="graph_circle rule_late_15" cx="236.710938" cy="243.539063" r="14" style="opacity: 1;" fill="#bcbddc" id="rule_late_15"></circle>
+          <circle class="graph_circle rule_late_16" cx="231.59375" cy="210.933594" r="14" style="opacity: 1;" fill="#bcbddc" id="rule_late_16"></circle>
+          <circle class="graph_circle rule_late_17" cx="395.921875" cy="339.847656" r="12" style="opacity: 1;" fill="#bcbddc" id="rule_late_17"></circle>
+          <circle class="graph_circle rule_late_18" cx="395.289063" cy="314.289063" r="12" style="opacity: 1;" fill="#bcbddc" id="rule_late_18"></circle>
+          <circle class="graph_circle rule_late_19" cx="318.136719" cy="284.285156" r="15" style="opacity: 1;" fill="#dadaeb" id="rule_late_19"></circle>
+          <circle class="graph_circle rule_late_20" cx="353.667969" cy="281.285156" r="15" style="opacity: 1;" fill="#dadaeb" id="rule_late_20"></circle>
+    
+          <rect class="graph_symptom_container"  id="pain_late_symp" x="313.742188" y="168.265625" height="12" width="25" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="pain_late_text" x="317.742188" y="175.265625" style='font-size:0.5em; font-family:sans-serif'>pain</text>
+    
+          <rect class="graph_symptom_container"  id="fatigue_late_symp" x="319.9375" y="241.367188" height="12" width="30" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="fatigue_late_text" x="322.9375" y="250.367188" style='font-size:0.5em; font-family:sans-serif'>fatigue</text>
+      
+          <rect class="graph_symptom_container"  id="sleep_late_symp" x="426.304688" y="323.601563" height="12" width="26" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="sleep_late_text" x="428.304688" y="332.601563" style='font-size:0.5em; font-family:sans-serif'>sleep</text>
+        
+          <rect class="graph_symptom_container"  id="drowsiness_late_symp" x="324.242188" y="320.28125" height="12" width="42" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="drowsiness_late_text" x="326.242188" y="329.28125" style='font-size:0.5em; font-family:sans-serif'>drowsiness</text>
+      
+          <rect class="graph_symptom_container"  id="dryMouth_late_symp" x="172.835938" y="240.089844" height="12" width="38" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="dryMouth_late_text" x="175.835938" y="249.089844" style='font-size:0.5em; font-family:sans-serif !important'>dryMouth</text>
+      
+          <rect class="graph_symptom_container"  id="swallow_late_symp" x="369.917969" y="188.5" height="12" width="34" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="swallow_late_text" x="371.917969" y="196.5" style='font-size:0.5em; font-family:sans-serif !important'>swallow</text>
+         
+          <rect class="graph_symptom_container"  id="taste_late_symp" x="178.46875" y="208.21" height="12" width="25" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="taste_late_text" x="180.46875" y="217.21" style='font-size:0.5em; font-family:sans-serif !important'>taste</text>
+          
+          <rect class="graph_symptom_container"  id="sores_late_symp" x="297.816" y="106.488281" height="12" width="25" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="sores_late_text" x="299.816" y="115.488281" style='font-size:0.5em; font-family:sans-serif !important'>sores</text>
+       
+          <rect class="graph_symptom_container"  id="activities_late_symp" x="250.695" y="373.21" height="12" width="34" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="activities_late_text" x="253.695" y="382.21" style='font-size:0.5em; font-family:sans-serif !important'>activities</text>
+        
+          <rect class="graph_symptom_container"  id="mood_late_symp" x="175.6718" y="403.925" height="12" width="28" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="mood_late_text" x="178.6718" y="410.925" style='font-size:0.5em; font-family:sans-serif !important'>mood</text>
+        
+          <rect class="graph_symptom_container"  id="work_late_symp" x="331.953" y="386.99" height="12" width="28" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="work_late_text" x="334.953" y="394.99" style='font-size:0.5em; font-family:sans-serif !important'>work</text>
+         
+          <rect class="graph_symptom_container"  id="enjoyment_late_symp" x="102.6679" y="434" height="12" width="37" style="opacity: 1;" fill="aliceblue"></rect>
+          <text class="graph_symptom_text" id="enjoyment_late_text" x="101.6679" y="441.765" style='font-size:0.5em; font-family:sans-serif !important'>enjoyment</text>
+         
+          </g>
+          </svg>
+
+      </div>
+
+
+      <div id="tendril" style="margin:auto"></div>
+      <div onload="main();">
+        <!-- <object  data ='graph_svg.svg' type='image/svg+xml' id="external_svg"></object>
+        <script type="text/javascript" src='graph.js' >
+
+        </script> -->
+
+      </div>
+
+
+      <!--      <div style="display:flex; flex-direction: row; margin-left: 5.5%">
+      <span style="margin-left: 10px;">  Time</span>
+       <svg height="10" width="200" style=" margin-top:9px; margin-left: 30px;">
+          <line x1="0" y1="0" x2="200" y2="0" style="stroke:#83aad4;stroke-width:2" />
+        </svg>
+        <span style="color: #83aad4">> </span>
+       
+
+     </div> -->
+
+    </div>
+    <div class="flex-container-column" style="flex:4.5 0 0;">
+
+      <div id="stackedLinePlot" style="margin-top: 1%!important;">
+
+
+
+        <div id="filtersPanel" class=""
+          style="position: absolute; height: 98%; margin-top:0px !important; width: 11%; z-index:1 !important;margin-left: 20px;">
+          <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%;">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Select Time (weeks)</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; margin-bottom:-5px">
+              <div id="time-slider" class="ui labeled ticked slider"></div>
+            </div>
+          </div>
+
+
+          <div class="card"
+            style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 5px; margin-bottom:5px;">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Select Patient</h5>
+            </div>
+            <div class="card-body text-left" style=" font-size: 0.9em; padding: 5px">
+              <div class="filter patient-dropdown">
+                <select multiple id="patient-list" class="ui dropdown patient">
+                  <option id="patient-list-placeholder" value="">Select Patient ID(s)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card"
+            style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 5px; padding-bottom: 10px; ">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Affected Areas:</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; margin-bottom:-5px;">
+              <div style="margin:auto;">
+
+                <svg style="margin-left: 50px;" id="Layer_1" enable-background="new 0 0 512 512" height="120"
+                  viewBox="0 0 512 512" width="120" xmlns="http://www.w3.org/2000/svg">
+                  <g>
+                    <g>
+                      <path
+                        d="m422.94 169.95c-2.426 0-4.834.214-7.214.621v-10.845c0-88.073-71.653-159.726-159.726-159.726-45.949 0-89.706 19.816-120.051 54.366-2.733 3.112-2.426 7.851.686 10.584s7.852 2.426 10.584-.686c27.498-31.308 67.147-49.264 108.781-49.264 79.802 0 144.726 64.924 144.726 144.726v76.94c0 18.207-2.292 36.272-6.756 53.773-.021.086-.046.17-.064.256-5.102 19.898-13.015 39.065-23.57 56.88-2.112 3.563-.935 8.164 2.629 10.276 3.563 2.11 8.164.935 10.275-2.629 9.68-16.337 17.275-33.741 22.683-51.788 5.451 2.314 11.206 3.517 17.017 3.517 30.135 0 34.475-24.415 36.807-37.531 1.365-7.679 1.417-8.171 5.501-14.444 4.122-6.33 9.252-14.208 9.252-30.195 0-33.822-19.757-54.831-51.56-54.831zm29.738 76.84c-5.379 8.262-6.021 10.559-7.7 20.004-2.702 15.196-5.695 25.156-22.039 25.156-4.541 0-8.938-1.087-13.127-3.231 3.906-17.006 5.913-34.467 5.913-52.053v-10.129c.899-1.388 2.578-3.657 4.997-5.598 4.781-3.839 10.149-4.534 16.412-2.127 3.865 1.486 8.205-.442 9.691-4.31 1.486-3.866-.443-8.205-4.31-9.691-10.852-4.172-19.879-2.488-26.791 1.409v-20.314c2.37-.633 4.783-.956 7.214-.956 32.998 0 36.56 27.854 36.56 39.83.002 11.534-3.159 16.388-6.82 22.01z" />
+                      <path
+                        d="m363.449 371.944c-3.442-2.303-8.1-1.379-10.404 2.064-11.845 17.495-12.737 19.561-16.73 24.217-.057.067-.114.133-.169.202-11.572 13.379-28.413 21.178-46.37 21.178h-62.16c-19.563 0-38.112-9.447-49.617-25.271l-25.129-34.561c-15.432-21.225-26.733-44.642-33.63-69.378-.083-.571-.239-1.134-.456-1.682-4.962-18.368-7.51-37.447-7.51-56.888v-72.1c0-24.765 6.36-49.2 18.393-70.665 2.025-3.613.739-8.184-2.875-10.209s-8.184-.739-10.209 2.875c-13.286 23.7-20.309 50.671-20.309 78v10.845c-2.38-.407-4.788-.621-7.214-.621-31.803 0-51.56 21.009-51.56 54.83 0 15.988 5.13 23.865 9.252 30.195 4.079 6.265 4.136 6.759 5.501 14.444 2.332 13.116 6.672 37.531 36.807 37.531 6.266 0 12.445-1.396 18.261-4.074 7.482 23.331 18.688 45.46 33.418 65.719l21.761 29.929v105.976c0 4.142 3.358 7.5 7.5 7.5h22.231c4.142 0 7.5-3.358 7.5-7.5s-3.358-7.5-7.5-7.5h-14.731v-81.176c13.763 11.954 31.571 18.781 50.117 18.781h62.16c16.322 0 31.897-5.184 44.724-14.462v76.857h-110.424c-4.142 0-7.5 3.358-7.5 7.5s3.358 7.5 7.5 7.5h117.923c4.142 0 7.5-3.358 7.5-7.5v-98.693c3.427-4.31 4.239-5.994 16.013-23.459 2.303-3.443 1.379-8.101-2.064-10.404zm-274.389-79.994c-16.343 0-19.337-9.96-22.039-25.156-1.683-9.465-2.324-11.747-7.7-20.004-3.661-5.621-6.822-10.476-6.822-22.01 0-11.976 3.563-39.83 36.56-39.83 2.431 0 4.844.323 7.214.956v20.314c-6.911-3.896-15.938-5.58-26.791-1.409-3.866 1.486-5.796 5.825-4.31 9.691s5.826 5.797 9.691 4.31c8.987-3.455 16.291-.173 21.409 7.731v5.283c0 19.22 2.332 38.109 6.877 56.372-4.473 2.488-9.194 3.752-14.089 3.752z" />
+                      <path
+                        d="m297.423 277.294c-3.52-2.185-8.143-1.103-10.328 2.416-.085.137-9.112 13.687-31.095 13.687-21.824 0-30.682-13.059-31.13-13.743-2.198-3.475-6.792-4.532-10.292-2.36-3.519 2.185-4.601 6.809-2.416 10.328.527.848 13.25 20.775 43.839 20.775s43.312-19.927 43.839-20.775c2.183-3.518 1.102-8.143-2.417-10.328z" />
+                      <path
+                        d="m189.401 158.451c-25.182-2.175-46.128 5.491-47.007 5.819-3.882 1.445-5.857 5.763-4.413 9.645 1.445 3.882 5.762 5.856 9.645 4.413.184-.068 18.625-6.814 40.487-4.932 19.539 1.685 29.534 16.96 29.989 17.671 2.199 3.495 6.809 4.554 10.313 2.371 3.516-2.19 4.59-6.816 2.4-10.332-.566-.91-14.194-22.309-41.414-24.655z" />
+                      <path
+                        d="m374.019 173.915c1.445-3.882-.531-8.2-4.413-9.645-.879-.327-21.824-7.99-47.007-5.819-27.22 2.346-40.847 23.746-41.414 24.655-2.182 3.502-1.114 8.092 2.377 10.293 3.485 2.196 8.11 1.157 10.333-2.328.416-.652 10.413-15.988 29.992-17.676 21.705-1.869 40.313 4.868 40.487 4.932 3.882 1.446 8.2-.531 9.645-4.412z" />
+                      <path
+                        d="m212.059 330.352c-3.766-1.682-8.189-.006-9.892 3.757-1.707 3.774-.032 8.217 3.742 9.925.692.313 17.324 7.667 50.091 7.667s49.399-7.354 50.091-7.667c3.759-1.701 5.42-6.11 3.74-9.879s-6.107-5.463-9.885-3.805c-.145.063-14.793 6.35-43.946 6.35-28.962 0-43.609-6.204-43.941-6.348z" />
+                    </g>
+                  </g>
+                </svg>
+                <svg id="brain" class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+                  opacity="0" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 22%; height: 70px; position: absolute; top:55px; left:89px;">
+                  <rect width="20" height="9" rx="5" />
+                </svg>
+                <svg id="mouth" class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+                  opacity="0.2" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 20%; height: 50px; position: absolute; top:125px; left:95px;">
+                  <rect width="17" height="8" rx="5" />
+                </svg>
+
+                <svg id="throat" class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+                  opacity="0.2" xmlns="http://www.w3.org/2000/svg"
+                  style="width: 20%; height: 50px; position: absolute; top:150px; left:97.5px;">
+                  <rect width="15" height="7" rx="5" />
+                </svg>
+                <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0.5  16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="width: 5%; height: 5px; position: absolute; top:95px; left:92px;">
+                  <circle cx="8" cy="8" r="7.5" />
+                </svg>
+                <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0.5  16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="width: 5%; height: 5px; position: absolute; top:95px; left:127px;">
+                  <circle cx="8" cy="8" r="7.5" />
+                </svg>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top:5px; height: 47%;">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Patients Overview</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; ">
+
+              <li style='color: transparent;'>
+
+                <div style="height: 46vh !important; opacity: 1; color: black; margin-top: -20px; margin-left:15px !important" class="filter">
+                  <div id='patientOverviewTitle'>No. of patients per time point:</div>
+                  <div id="patientOverviewContainter">
+                    <div id="overview0W"></div>
+                    <div id="overview2W"></div>
+                    <div id="overview3W"></div>
+                    <div id="overview4W"></div>
+                    <div id="overview5W"></div>
+                    <div id="overview6W"></div>
+                    <div id="overview7W"></div>
+                    <div id="overview12W"></div>
+                    <div id="overview18W"></div>
+                    <div id="overview24W"></div>
+                    <div id="overview48W"></div>
+                    <div id="overview72W"></div>
+                  </div>
+                  <div style="margin-top:10px;">
+                    <div id='symptomOvervirePreTitle'></div>
+                    <div id='sympOverviewTitle' style="margin-left: 25px"></div>
+                    <div style="margin-left: 60px">
+                      <div style="margin-left: 15px;"> <svg id="0Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#fee5d9" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview0R"></span>
+                      </div>
+                      <div style="margin-left: 15px;"><svg id="5Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#fcae91" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview5R"></span>
+                      </div>
+                      <div style="margin-left: 15px;"><svg id="9Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#fb6a4a" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview9R"> </span>
+                      </div>
+                      <div style="margin-left:15px;"><svg id="10Rlegend" class="bi bi-square-fill" width="1em"
+                          height="1em" viewBox="0 0 10 10" fill="#de2d26" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="10" height="10" />
+                        </svg> <span id="overview10R"></span>
+                      </div>
+                    </div>
+             
+              </li>
+            </div>
+          </div>
+          <div class="card" style="box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%); border:0;  width: 100%;margin-top:5px">
+            <div class="card-header" style="background:aliceblue">
+              <h5 style="margin: 0 ">Ratings Values Legend</h5>
+            </div>
+            <div class="card-body text-left" style=" padding: 5px; margin-top:5px; ">
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#fee5d9"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 0
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#fcae91"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 1-5
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#fb6a4a"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 6-9
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#de2d26"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="10" height="10" />
+                </svg> 10
+              </div>
+              <div style="margin-left:10px;margin-top:-2px">
+                <svg class="bi bi-square-fill" width="1em" height="1em" viewBox="0 0 10 10" fill="#bdc9e1"
+                  xmlns="http://www.w3.org/2000/svg" style=" opacity:0.3;">
+                  <rect width="10" height="10" />
+                </svg> Missing Information
+              </div>
+              <div class="form-check  show-percentages" style=" position:absolute !important; margin-top: -200px;">
+                <input class="form-check-input " type="checkbox" value="" id="show-percentages">
+                <label class="form-check-label" for="defaultCheck1"
+                  style="margin-left: 15px !important; font-weight: normal;">
+                  Show Percentages
+                </label>
+              </div>
+              <div class="form-check show-patient-checkbox-neighbors"
+                style="visibility: hidden; position:absolute !important; margin-top: -200px;">
+                <input class="form-check-input " type="checkbox" value="" id="show-patient-nearest_neighbors">
+                <label class="form-check-label" for="defaultCheck1"
+                  style="margin-left: 15px !important; font-weight: normal;">
+                  Show Similar Patients
+                </label>
+              </div>
+              <div class="form-check show-patient-checkbox"
+                style="visibility: hidden; position:absolute !important; margin-top: -180px;">
+                <input class="form-check-input " type="checkbox" value="" id="show-patient">
+                <label class="form-check-label" for="defaultCheck1"
+                  style="margin-left: 15px !important; font-weight: normal;">
+                  Show Selected Patient
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="stackplot"></div>
+        <div id="transactions"></div>
+
+      </div>
+
+    </div>
+    <div class="flex-container-column" style="flex:0.7 0 0;">
+      <div id="filtersPanel "
+        style="box-shadow: 0 10px 20px 10px rgb(0 0 0 / 5%); border:0.1;  width: 100%; margin-top: 0%; margin-top:5px;">
+        <div class="">
+          <div class="card-header" style="background:aliceblue; height: 45px;">
+            <h5 style="margin: 0 ">Symptoms</h5>
+          </div>
+
+        </div>
+
+        <div class="category-entries-container symptoms-buttons" id="filters-list-6"
+          style="margin-top: 25px !important;">
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="nausea">nausea</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="vomit">vomit</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="mucus">mucus</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="breath">breath</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="choking">chocking</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="swallow">swallow</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="dryMouth">dryMouth</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="teeth">teeth</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="speech">speech</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="taste">taste</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="appetite">appetite</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="constipation">constipation</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="sores">sores</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="skin">skin</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="pain">pain</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="sleep">sleep</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="drowsiness">drowsiness</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="numbness">numbness</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="fatigue">fatigue</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="distress">distress</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="memory">memory</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="sadness">sadness</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="mood">mood</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list"id="enjoyment">enjoyment</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="activities">activities</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="work">work</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list" id="relations">relations</button></div>
+          <div><button type="button" class="btn btn-light btn-sm symptoms-list " id="walking">walking</button></div>
+
+          <div id="matrix" class="correlation-matrix" style="margin:auto; "></div>
+        </div>
+
+        </ul>
+
+      </div>
+
+      <div class="card"
+        style="box-shadow: 0 10px 20px 10px rgb(0 0 0 / 5%); border:0;  width: 100%; margin-top: 0%; margin-top:5px;">
+        <div class="card-header" style="background:aliceblue">
+          <h5 style="margin: 0 ">Correlation</h5>
+        </div>
+        <div class="card-body text-left" style=" font-size: 0.9em; padding: 5px">
+
+          <div style="font-size: 0.8rem; height:25% !important ">
+            <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#de2d26"
+              xmlns="http://www.w3.org/2000/svg" style="height: 20px; width:20px; opacity:0.5; margin-right:5px">
+              <circle cx="10" cy="10" r="10" />
+            </svg> High Correlation
+          </div>
+          <div style="font-size: 0.8rem; margin-top:5px; margin-left:-3px">
+            <svg class="bi bi-circle-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="#fee0d2"
+              xmlns="http://www.w3.org/2000/svg" style="width: 20%;">
+              <circle cx="10" cy="10" r="5" />
+            </svg> Low Correlation
+          </div>
+          <div style="margin-left: 10px; font-size: 0.8rem;">with red symptom</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <script src="./src/index.js"></script>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+<!-- <script src="https://unpkg.com/d3-v6-tip@1.0.6/build/d3-v6-tip.js"></script> -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bumbeishvili/d3-tip-for-v6@4/d3-tip.min.css">
+
+<!-- <script>
+
+const tip = d3.tip()
+
+</script> -->
+</body>
+
+</html>

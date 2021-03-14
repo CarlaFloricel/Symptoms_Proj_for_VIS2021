@@ -1,0 +1,17 @@
+#stackedLinePlot {
+/*width:130%;*/
+width:100%;
+margin-top:20% !important;
+}
+
+#stackplotLegend {
+
+  border: none;
+  display: flex;
+  
+  top:-10%;
+}
+
+path{
+  pointer-events:all;
+}
