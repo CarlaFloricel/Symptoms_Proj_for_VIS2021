@@ -190,6 +190,29 @@ class App {
 
     })
 
+    // this button will work to separate the tendrils when the mean checkbox is checked
+    //  can separate them and then revert back
+    d3.select("#separate").on('click', () => {
+      // const self = this
+      if($("#show-mean-tendrils").is(":checked")){
+        // console.log($("#separate").val())
+          if($("#separate").val() == 'separate'){
+            d3.select("#separate").attr('value', 'revert')
+                                .text('Revert')
+
+            this.drawTendrilPlot(this.filteredPatients, this.symptoms);
+        }else if($("#separate").val() == 'revert'){
+            d3.select("#separate").attr('value', 'separate')
+                                .text('Separate')
+
+            this.drawTendrilPlot(this.filteredPatients, this.symptoms);
+        }
+      }
+      
+    });
+
+
+
     $("#show-colored-tendrils").on("click", () => {
       if( ! $(`#SymptomRules`).hasClass('active')){
         $('#selectedAcute').hide()
@@ -850,6 +873,8 @@ class App {
     const clusters = await d3.csv(`/data/output/week_${period}.csv`);
     var filename = ''
     if (!symptoms || symptoms.length == 0) {
+      // D:\RA Project\Symptoms\Symptoms_Proj_for_VIS2021\Symptoms_Project-master\data\mdasi_files
+      // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`
       filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`;
       var symptoms = this.allSymptoms;
       if (!patientId) {
