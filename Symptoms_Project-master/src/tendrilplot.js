@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { chordTranspose } from 'd3';
 import { tip as d3tip } from "d3-v6-tip";
 
 class TendrilPlot {
@@ -42,7 +43,7 @@ class TendrilPlot {
     this.select('.Tendrils').remove();
   }
 
-  async drawTendrils(data, symptom, mean_selection) {    
+  async drawTendrils(data, symptom, mean_selection) {
     const { svg } = this;
     const tip = d3tip().attr('class', 'd3-tip').html((d) => d);
     svg.call(tip)
@@ -94,8 +95,8 @@ class TendrilPlot {
         'sores', 'skin', 'pain', 'sleep', 'drowsiness', 'numbness', 'fatigue', 'distress', 'memory', 'sadness',
         'mood', 'enjoyment', 'activities', 'work', 'relations', 'walking'];
 
-      if ($("#show-mean-tendrils").is(":checked") && $("#separate").val() == 'separate') {
-
+      if ($("#show-mean-tendrils").is(":checked") && !$("#show-colored-tendrils").is(":checked")) {
+      
         svg.attr("transform", "translate(100, -600), rotate(90)")
         const g = svg.append('g')
           .classed('tendrils', true)
@@ -221,14 +222,38 @@ class TendrilPlot {
           var prevY = 0;
           const points = [{ x: 0, y: 0 }];
           const points2 = []
-          for (var k = 1; k < mean_selection.length; k++) {
-            var dif = mean_selection[k] - mean_selection[k - 1];
+          var sum=[]
+          var timeIndex = 0
+          var patientTimeIndexes = []
+          var currentPatient=[]
+          mean_selection.forEach(t=> {
+
+            currentPatient.push(t)
+        
+            const time = transformPeriodIndex(t[1])
+            patientTimeIndexes.push(time) 
+            if (transformPeriodIndex(t[1]) > 0 && timeIndex > 0) {
+              const d = transformPeriodIndex(t[1]) - transformPeriodIndex(currentPatient[timeIndex - 1][1])
+              for (var h = 0; h < d - 1; h++)
+                sum.push(parseInt(currentPatient[timeIndex - 1][0]))
+              sum.push(parseInt(t[0]))
+            }
+            else {
+              sum.push(parseInt(t[0]))
+            }
+  
+            timeIndex += 1
+  
+        })
+
+          for (var k = 1; k < sum.length; k++) {
+            var dif = sum[k] - sum[k - 1]
             var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
 
             const vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
             prevX = vala[0] + prevX;
             prevY = vala[1] + prevY;
-
+            if (patientTimeIndexes.includes(k)){
             if (k < 8) {
               points.push({ x: prevX, y: prevY })
 
@@ -238,13 +263,9 @@ class TendrilPlot {
                 .attr('r', 1.5)
                 .attr("class", "mean_circle")
                 .attr('opacity', 0.65)
-                .attr('fill', "red")
+                .attr('fill', "black")
                 .attr("class", "singlePatientCircle circle circleAcute")
                 .attr("id", symptom + "circle")
-
-
-              if (k == 7)
-                points2.push({ x: prevX, y: prevY })
 
             }
 
@@ -257,13 +278,14 @@ class TendrilPlot {
                 .attr('r', 1.5)
                 .attr("class", "mean_circle")
                 .attr('opacity', 0.65)
-                .attr('fill', "red")
+                .attr('fill', "black")
                 .attr("class", "singlePatientCircle circle circleLate")
                 .attr("id", symptom + "circle")
             }
-
-
+            
           }
+          }
+          points2.unshift(points[points.length-1])
           const line = d3.line()
             .x((d) => (-d.x))
             .y((d) => (-d.y))
@@ -272,7 +294,7 @@ class TendrilPlot {
             .attr('fill', 'none')
             .attr('class', "stackPath meanPathAcute")
             .attr('id', symptom + "tendril")
-            .attr('stroke', "red")
+            .attr('stroke', "black")
             .attr('stroke-width', '0.5px')
             .attr("opacity", '0.65')
             .attr('d', line(points))
@@ -280,32 +302,32 @@ class TendrilPlot {
             .attr('fill', 'none')
             .attr('class', "stackPath meanPathLate")
             .attr('id', symptom + "tendril")
-            .attr('stroke', "red")
+            .attr('stroke', "black")
             .attr('stroke-width', '0.5px')
             .attr("opacity", '0.65')
             .attr('d', line(points2))
         }
-        if(!$("#Patients2D").hasClass('active')){
+        if (!$("#Patients2D").hasClass('active')) {
           if ($("#Late").hasClass('active')) {
             $('.circleLate').css("opacity", '0.65');
-            $('.circleAcute').css("opacity", '0.1');
+            $('.circleAcute').css("opacity", '0');
             $('.meanPathLate').css("opacity", '0.65');
             $('.meanPathAcute').css("opacity", '0.1');
-      
+
           }
-          if($("#Acute").hasClass('active')) {
-            $('.circleLate').css("opacity", '0.1');
+          if ($("#Acute").hasClass('active')) {
+            $('.circleLate').css("opacity", '0');
             $('.circleAcute').css("opacity", '0.65');
             $('.meanPathLate').css("opacity", '0.1');
             $('.meanPathAcute').css("opacity", '0.65');
-      
+
           }
-      
+
         }
 
       }
 
-      else if ($("#show-mean-tendrils").is(":checked") && $("#separate").val() == 'revert') {
+      else if ($("#show-mean-tendrils").is(":checked") && $("#show-colored-tendrils").is(":checked")) {
 
         svg.attr("transform", "translate(100, -600), rotate(90)")
         const g = svg.append('g')
@@ -344,27 +366,25 @@ class TendrilPlot {
           var prevY = 0;
           const points = [{ x: 0, y: 0 }];
 
-          if(i == 0){
+          if (i == 0) {
             prevX = 15
             prevY = 10
-            points.push({x:prevX,y: prevY})
-          }else if(i == 1){
+            points.push({ x: prevX, y: prevY })
+          } else if (i == 1) {
             prevX = 5
             prevY = 10
-            points.push({x:prevX,y: prevY})
-          }else if(i == 2){
+            points.push({ x: prevX, y: prevY })
+          } else if (i == 2) {
             prevX = -5
             prevY = 10
-            points.push({x:prevX,y: prevY})
-          }else if(i == 3){
+            points.push({ x: prevX, y: prevY })
+          } else if (i == 3) {
             prevX = -15
             prevY = 10
-            points.push({x:prevX,y: prevY})
+            points.push({ x: prevX, y: prevY })
           }
-          
-          const points2 = []
 
-          // console.log(points)
+          const points2 = []
           for (var k = 1; k < total_data[i].length; k++) {
             var dif = total_data[i][k] - total_data[i][k - 1];
             var angle = (dif + 10) / 20 * angleRange - angleRange / 2;
@@ -375,8 +395,6 @@ class TendrilPlot {
             prevY = vala[1] + prevY;
 
             if (k < 8) {
-
-
               points.push({ x: prevX, y: prevY })
               g.append('circle')
                 .attr('cx', -prevX)
@@ -446,114 +464,30 @@ class TendrilPlot {
 
 
         }
-        if (mean_selection && mean_selection.length > 0) {
-          const angleRange = 3 * Math.PI / 4
-          var prevX = 0;
-          var prevY = 0;
-          const points = [{ x: 0, y: 0 }];
-          const points2 = []
-          for (var k = 1; k < mean_selection.length; k++) {
-            var dif = mean_selection[k] - mean_selection[k - 1];
-            var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
 
-            const vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
-            prevX = vala[0] + prevX;
-            prevY = vala[1] + prevY;
-
-            if (k < 8) {
-              points.push({ x: prevX, y: prevY })
-
-              g.append('circle')
-                .attr('cx', -prevX)
-                .attr('cy', -prevY)
-                .attr('r', 1.5)
-                .attr("class", "mean_circle")
-                .attr('opacity', 0.65)
-                .attr('fill', "red")
-                .attr("class", "singlePatientCircle circle circleAcute")
-                .attr("id", symptom + "circle")
-
-
-              if (k == 7)
-                points2.push({ x: prevX, y: prevY })
-
-            }
-
-
-            else {
-              points2.push({ x: prevX, y: prevY })
-              g.append('circle')
-                .attr('cx', -prevX)
-                .attr('cy', -prevY)
-                .attr('r', 1.5)
-                .attr("class", "mean_circle")
-                .attr('opacity', 0.65)
-                .attr('fill', "red")
-                .attr("class", "singlePatientCircle circle circleLate")
-                .attr("id", symptom + "circle")
-            }
-
-
-          }
-          const line = d3.line()
-            .x((d) => (-d.x))
-            .y((d) => (-d.y))
-            .curve(d3.curveCardinal.tension(0.5));
-          g.append('path')
-            .attr('fill', 'none')
-            .attr('class', "stackPath meanPathAcute")
-            .attr('id', symptom + "tendril")
-            .attr('stroke', "red")
-            .attr('stroke-width', '0.5px')
-            .attr("opacity", '0.65')
-            .attr('d', line(points))
-          g.append('path')
-            .attr('fill', 'none')
-            .attr('class', "stackPath meanPathLate")
-            .attr('id', symptom + "tendril")
-            .attr('stroke', "red")
-            .attr('stroke-width', '0.5px')
-            .attr("opacity", '0.65')
-            .attr('d', line(points2))
-        }
-
-        if(!$("#Patients2D").hasClass('active')){
-          // console.log("revert opacity condition called")
+        if (!$("#Patients2D").hasClass('active')) {
           if ($("#Late").hasClass('active')) {
-            // console.log("late is active")
-            // d3.selectAll('.circleLate').attr('opacity', '0.65')
-            // d3.selectAll('.circleAcute').attr('opacity', '0.1')
-            // d3.selectAll('.meanPathLate').attr('opacity', '0.65')
-            // d3.selectAll('.meanPathAcute').attr('opacity', '0.1')
             $('.circleLate').css("opacity", '0.65');
-            $('.circleAcute').css("opacity", '0.1');
+            $('.circleAcute').css("opacity", '0');
             $('.meanPathLate').css("opacity", '0.65');
             $('.meanPathAcute').css("opacity", '0.1');
-      
-          }
-          if($("#Acute").hasClass('active')) {
-            // console.log('acute is active')
-            // d3.selectAll('.circleLate').attr('opacity', '0.1')
-            // d3.selectAll('.circleAcute').attr('opacity', '0.65')
-            // d3.selectAll('.meanPathLate').attr('opacity', '0.1')
-            // d3.selectAll('.meanPathAcute').attr('opacity', '0.65')
 
-            $('.circleLate').css("opacity", '0.1');
+          }
+          if ($("#Acute").hasClass('active')) {
+            $('.circleLate').css("opacity", '0');
             $('.circleAcute').css("opacity", '0.65');
             $('.meanPathLate').css("opacity", '0.1');
             $('.meanPathAcute').css("opacity", '0.65');
-      
+
           }
-      
+
         }
 
       }
 
 
       else {
-        // console.log("else is calles")
         svg.attr("transform", "translate(100, -600), rotate(90)").style("margin-bottom", "100px !important")
-
         const g = svg.append('g')
           .attr("class", 'tendrils ' + symptom)
           .attr('transform', `translate(110,500) scale(4, 4)`)
@@ -575,7 +509,7 @@ class TendrilPlot {
           var prevY = 0;
           const surv = this.survival;
           const points = [{ x: 0, y: 0 }];
-          
+
           for (var k = 1; k < radialData.length; k++) {
             var dif = radialData[k][symptom] - radialData[k - 1][symptom];
 
@@ -640,10 +574,10 @@ class TendrilPlot {
 
       // if the mean checkbox is unchecked and the button is revert
       // change it back to separate
-      if($("#separate").val() === 'revert'){
+      if ($("#separate").val() === 'revert') {
         d3.select("#separate").attr('value', 'separate')
-                            .text('Separate')
-     }
+          .text('Separate')
+      }
 
       svg.attr("transform", "translate(100, -600), rotate(90)").style("margin-bottom", "100px !important")
       this.patientIdEl.text(symptom);
@@ -667,7 +601,6 @@ class TendrilPlot {
         })
 
       const patients = data;
-
       var index = 0;
       patients.forEach((p, i) => {
         if (parseInt(p[0][0].patientId) == window.selectedpatient)
@@ -675,11 +608,7 @@ class TendrilPlot {
       })
       var e = patients[index]
       patients.splice(index, 1)
-
-      patients.sort((a, b) => b.survival - a.survival)
       patients.push(e)
-
-
       patients.forEach((p, i) => {
         const timestamps = p.map(p => parseInt(p.length));
         const line = d3.line()
@@ -693,8 +622,8 @@ class TendrilPlot {
         var patientTimeIndexes = []
         const radialData = currentPatient.map(t => {
           const time = transformPeriodIndex(t['period'])
-          patientTimeIndexes.push(time)
-          if (transformPeriodIndex(t['period']) > 0) {
+          patientTimeIndexes.push(time) 
+          if (transformPeriodIndex(t['period']) > 0 && timeIndex > 0) {
             const d = transformPeriodIndex(t['period']) - transformPeriodIndex(currentPatient[timeIndex - 1]['period'])
             for (var h = 0; h < d - 1; h++)
               sum.push(parseInt(currentPatient[timeIndex - 1][symptom]))
@@ -714,7 +643,6 @@ class TendrilPlot {
         var prevY = 0;
         const points = [{ x: 0, y: 0 }];
         const points2 = [];
-        // console.log(points)
         for (var k = 1; k < sum.length; k++) {
           var dif = sum[k] - sum[k - 1];
           var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
@@ -737,11 +665,8 @@ class TendrilPlot {
                 .attr('fill', '#83aad4')
                 .attr('class', currentPatient[currentPatient.length - 1].patientId + " circle tendrilCircle " + currentPatient[currentPatient.length - 1].patientId + "circle circleAcute");
 
-              if (k == 7)
-                points2.push({ x: prevX, y: prevY })
             }
             else {
-
               points2.push({ x: prevX, y: prevY })
               g.append('circle')
                 .attr('cx', -prevX)
@@ -751,9 +676,10 @@ class TendrilPlot {
                 .attr('fill', '#83aad4')
                 .attr('class', currentPatient[currentPatient.length - 1].patientId + " circle tendrilCircle " + currentPatient[currentPatient.length - 1].patientId + "circle circleLate");
             }
+           
         }
 
-
+        points2.unshift(points[points.length-1])
         g.append('path')
           .attr('fill', 'none')
           .attr('stroke', '#83aad4')
@@ -781,11 +707,23 @@ class TendrilPlot {
               .attr('stroke', '#83aad4')
             $(`.${window.selectedPatient}`).css('stroke-width', '0.5px')
             $('.plot path').css('opacity', '0.6')
-            $('.tendrilsPath').css('opacity', '0.65')
-            $('.circle').css('opacity', '0.65')
             $(".leaf-rect").css("opacity", "0")
             $(`#leaf-rect-${window.selectedpatient}`).css("opacity", '0.3')
+            $('.circle').css('opacity', '0')
+            $('.tendrilsPath').css('opacity', '0.2')
+            if ($(`#Late`).hasClass('active') && !$(`#Patients2D`).hasClass('active')) {
+              $('.meanPathLate').css('opacity', '0.65')
+              $('.circleLate').css('opacity', '0.65')
+            }
+            else if ($(`#Acute`).hasClass('active') && !$(`#Patients2D`).hasClass('active')) {
+              $('.meanPathAcute').css('opacity', '0.65')
+              $('.circleAcute').css('opacity', '0.65')
+            }
+            else {
+              $('.tendrilsPath').css('opacity', '0.65')
+              $('.circle').css('opacity', '0.65')
 
+            }
           })
 
 
@@ -814,15 +752,32 @@ class TendrilPlot {
             tip.hide()
             d3.select(this)
               .attr('stroke', '#83aad4')
-            $(`.${window.selectedPatient}`).css('stroke-width', '0.5px')
+            $(`.${window.selectedPatient}`).css('stroke-width', '0.5px').css('opacity', '0.2')
             $('.plot path').css('opacity', '0.6')
-            $('.tendrilsPath').css('opacity', '0.65')
-            $('.circle').css('opacity', '0.65')
             $(".leaf-rect").css("opacity", "0")
             $(`#leaf-rect-${window.selectedpatient}`).css("opacity", '0.3')
+            $('.circle').css('opacity', '0')
+            $('.tendrilsPath').css('opacity', '0.2')
+
+            if ($(`#Late`).hasClass('active') && !$(`#Patients2D`).hasClass('active')) {
+              $('.meanPathLate').css('opacity', '0.65')
+              $('.circleLate').css('opacity', '0.65')
+            }
+            else if ($(`#Acute`).hasClass('active') && !$(`#Patients2S`).hasClass('active')) {
+              $('.meanPathAcute').css('opacity', '0.65')
+              $('.circleAcute').css('opacity', '0.65')
+
+            }
+            else {
+
+              $('.tendrilsPath').css('opacity', '0.65')
+              $('.circle').css('opacity', '0.65')
+
+            }
+
 
           })
-        window.selectedPatient = [];
+        // window.selectedPatient = [];
 
       });
 

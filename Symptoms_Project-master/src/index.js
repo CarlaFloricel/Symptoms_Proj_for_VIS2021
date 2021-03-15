@@ -184,39 +184,24 @@ class App {
     $("#show-mean-tendrils").on("click", () => {
       if( ! $(`#SymptomRules`).hasClass('active')){
         $('#selectedAcute').hide()
-
       }
+        if($("#show-mean-tendrils").is(":checked")){
+          $('.colored-tendrils-button label').html("Separate by Therapy")
+        }
+        else{
+          $('.colored-tendrils-button label').html("Color by Therapy")
+  
+        }
+      
       this.drawTendrilPlot(this.filteredPatients, this.symptoms);
 
     })
-
-    // this button will work to separate the tendrils when the mean checkbox is checked
-    //  can separate them and then revert back
-    d3.select("#separate").on('click', () => {
-      // const self = this
-      if($("#show-mean-tendrils").is(":checked")){
-        // console.log($("#separate").val())
-          if($("#separate").val() == 'separate'){
-            d3.select("#separate").attr('value', 'revert')
-                                .text('Revert')
-
-            this.drawTendrilPlot(this.filteredPatients, this.symptoms);
-        }else if($("#separate").val() == 'revert'){
-            d3.select("#separate").attr('value', 'separate')
-                                .text('Separate')
-
-            this.drawTendrilPlot(this.filteredPatients, this.symptoms);
-        }
-      }
-      
-    });
-
-
 
     $("#show-colored-tendrils").on("click", () => {
       if( ! $(`#SymptomRules`).hasClass('active')){
         $('#selectedAcute').hide()
       }
+
       this.drawTendrilPlot(this.filteredPatients, this.symptoms);
     })
     $('#cluster-trajectory').on("click", this.clusterSymptoms)
@@ -314,7 +299,7 @@ class App {
     if (el == 'SymptomRules') {
       $('#selectedAcute').css("display", "block");
       $('#Late').removeClass("active");
-      $('.circleLate').css("opacity", '0.1');
+      $('.circleLate').css("opacity", '0');
       $('.circleAcute').css("opacity", '0.65');
       $('.meanPathLate').css("opacity", '0.1');
       $('.meanPathAcute').css("opacity", '0.65');
@@ -347,7 +332,7 @@ class App {
       $(`.rule`).removeClass("active")
       $(`.rule2`).addClass("active")
       $('.circleLate').css("opacity", '0.65');
-      $('.circleAcute').css("opacity", '0.1');
+      $('.circleAcute').css("opacity", '0');
       $('.meanPathLate').css("opacity", '0.65');
       $('.meanPathAcute').css("opacity", '0.1');
       window.supportlabels = ['0.20', "0.21", '0.22', '0.23', '0.26']
@@ -358,7 +343,7 @@ class App {
 
     }
     if (el == 'Acute') {
-      $('.circleLate').css("opacity", '0.1');
+      $('.circleLate').css("opacity", '0');
       $('.circleAcute').css("opacity", '0.65');
       $('.meanPathLate').css("opacity", '0.1');
       $('.meanPathAcute').css("opacity", '0.65');
@@ -990,6 +975,19 @@ class App {
     await this.onPatientFilter();
     window.freshTendril = 1;
     this.drawMatrix(this.lastSelectedSymptom)
+
+    if(!$("#Patients2D").hasClass('active')){
+      if($("#Acute").hasClass('active')){
+        $('#selectedLate').hide()
+        $('#selectedAcute').css("display", "block");
+      }
+      
+      else{
+        $('#selectedAcute').hide()
+        $('#selectedLate').css("display", "block");
+      }
+    }
+
   }
 
   async drawMatrix(symptom) {
@@ -1035,7 +1033,6 @@ class App {
 
 
   async drawTendrilPlot(patientIds, symptoms) {
-
     $(".tendrilsPath").css('stroke', '#83aad4')
     $(".tendrilCircle").css('stroke', '83aad4')
     if (!$('#Late').hasClass("active")) {
@@ -1054,12 +1051,12 @@ class App {
     const data_patient = await d3.csv('/data/mdasi_files/mdasi_new_patients_features_with_therapy2.csv');
     const patients = patientIds.map(patientId => data.filter(d => d.patientId === patientId.toString()));
     const p = patients;
-
+    
 
     if ($("#show-mean-tendrils").is(":checked")) {
       const mean_patient = data.filter(el => el['patientId'] == this.patients[0])
       for (var i = 0; i < this.symptoms.length; i++) {
-        const final_mean = mean_patient.map((e) => e[this.symptoms[this.symptoms.length - i - 1]])
+        const final_mean = mean_patient.map((e) => [e[this.symptoms[this.symptoms.length - i - 1]], e['period']])
         const tendrilPlot = new TendrilPlot('#tendril', 340, 300, [], this.symptoms[this.symptoms.length - i - 1], final_mean);
         tendrilPlot.init();
         this.tendrilPlots.push(tendrilPlot);
@@ -1067,13 +1064,13 @@ class App {
       if(!$("#Patients2D").hasClass('active')){
       if ($("#Late").hasClass('active')) {
         $('.circleLate').css("opacity", '0.65');
-        $('.circleAcute').css("opacity", '0.1');
+        $('.circleAcute').css("opacity", '0');
         $('.meanPathLate').css("opacity", '0.65');
         $('.meanPathAcute').css("opacity", '0.1');
   
       }
       if($("#Acute").hasClass('active')) {
-        $('.circleLate').css("opacity", '0.1');
+        $('.circleLate').css("opacity", '0');
         $('.circleAcute').css("opacity", '0.65');
         $('.meanPathLate').css("opacity", '0.1');
         $('.meanPathAcute').css("opacity", '0.65');
@@ -1138,9 +1135,9 @@ class App {
       }
       if (this.patients.length > 0) {
         var patient_id = "" + this.patients[0]
-        $(`.${patient_id}`).filter(".tendrilsPath").css('stroke', '#de2d26')
-        $(`.${patient_id}`).filter(".tendrilCircle").css('stroke', '#de2d26')
-        $(`.${patient_id}`).filter(".tendrilCircle").css("fill", "#de2d26")
+        $(`.${patient_id}`).filter(".tendrilsPath").css('stroke', 'black')
+        $(`.${patient_id}`).filter(".tendrilCircle").css('stroke', 'black')
+        $(`.${patient_id}`).filter(".tendrilCircle").css("fill", "black")
       }
       if(!$("#Patients2D").hasClass('active')){
 
@@ -1148,13 +1145,13 @@ class App {
       if ($("#Late").hasClass('active')) {
 
         $('.circleLate').css("opacity", '0.65');
-        $('.circleAcute').css("opacity", '0.1');
+        $('.circleAcute').css("opacity", '0');
         $('.meanPathLate').css("opacity", '0.65');
         $('.meanPathAcute').css("opacity", '0.1');
   
       }
       if($("#Acute").hasClass('active')) {
-        $('.circleLate').css("opacity", '0.1');
+        $('.circleLate').css("opacity", '0');
         $('.circleAcute').css("opacity", '0.65');
         $('.meanPathLate').css("opacity", '0.1');
         $('.meanPathAcute').css("opacity", '0.65');
@@ -1182,18 +1179,18 @@ class App {
     if (this.patients.length > 0) {
       var patient_id = "" + this.patients[0]
     }
-    window.selectedpatient = [];
+    // window.selectedpatient = [];
 
     if ($("#Late").hasClass('active')) {
 
       $('.circleLate').css("opacity", '0.65');
-      $('.circleAcute').css("opacity", '0.1');
+      $('.circleAcute').css("opacity", '0');
       $('.meanPathLate').css("opacity", '0.65');
       $('.meanPathAcute').css("opacity", '0.1');
 
     }
     if($("#Acute").hasClass('active')) {
-      $('.circleLate').css("opacity", '0.1');
+      $('.circleLate').css("opacity", '0');
       $('.circleAcute').css("opacity", '0.65');
       $('.meanPathLate').css("opacity", '0.1');
       $('.meanPathAcute').css("opacity", '0.65');

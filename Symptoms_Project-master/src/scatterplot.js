@@ -132,13 +132,16 @@ class ScatterPlot {
             // .text(d => "Patient ID: " +d.patientId);
               var aux_id = this['id'];
               aux_id = aux_id.replace("leaf-container-","");
-              if(window.selectedpatient.length ==0){}
+              if(window.selectedpatient.length ==0)
                window.selectedPatient = aux_id;
-               $('.stackPath').css('opacity','0.1');
+               if(!$('#show-mean-tendrils').is(":checked")){
+                $('.stackPath').css('opacity','0.1');
                 $('.circle').css('opacity','0');
                $(`.${window.selectedPatient}`).css('stroke-width','2.8')
                                               .css('opacity','0.8');
               $(".sympBar").css("opacity",'0.2')
+               }
+
               const textt = "Patient ID: " + aux_id
               tip.show(textt, this)})
       .on('mouseout', function () {
@@ -146,8 +149,8 @@ class ScatterPlot {
          $('.stackPath').css('opacity','0.6')
          $('.tendrilsPath').css('opacity','0.65')
                             .css('stroke-width','0.5px')
-          $('.circle').css('opacity','1')
-          $('.circle').css('stroke-width','1')
+          $('.circle').css('opacity','0.65')
+          $('.circle').css('stroke-width','0.65')
       })
       leaf.append("rect")
       .attr("class","leaf-rect")
