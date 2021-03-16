@@ -36,6 +36,7 @@ export async function main() {
             .on('mouseover', function () {
                 
                 // d3.selectAll(circles).classed("focused", false)
+                console.log(d3.select(this))
                 const id = d3.select(this)['_groups'][0][0].id.replace("rule_acute_", "")
                 const rule = acute_data.filter(d => d['rule_no'] == id)
                 const rule_lhs = rule.map(e => e["lhs"])[0]
@@ -76,9 +77,11 @@ export async function main() {
 
                     d3.select(this).style("opacity", 1)
                     rule_rhs.forEach(r2 => {
+                        console.log(r2, id)
                         const text_name2 = r2 + "_acute_text"
                         const out_r = "in_" + r2 + " out_" + id
                         const f = l.getElementsByClassName(out_r)
+                        // console.log(f)
                         $(`#${text_name2}`).css("opacity", "1")
                         d3.selectAll(f).style("opacity", "1").style("stroke", '#e7298a')
                     })
@@ -88,7 +91,7 @@ export async function main() {
                         const in_r = "in_" + id + " out_" + r
                         
                         const f = l.getElementsByClassName(in_r)
-                        console.log(f)
+                        // console.log(f)
                         d3.selectAll(f).style("opacity", "1").style("stroke", '#1f78b4')
                         $(`#${text_name}`).css("opacity", "1")
                     })
