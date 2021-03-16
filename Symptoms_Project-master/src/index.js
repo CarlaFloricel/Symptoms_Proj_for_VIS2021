@@ -859,8 +859,8 @@ class App {
     var filename = ''
     if (!symptoms || symptoms.length == 0) {
       // D:\RA Project\Symptoms\Symptoms_Proj_for_VIS2021\Symptoms_Project-master\data\mdasi_files
-      filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`
-      // filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`;
+      // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`
+      filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`;
       var symptoms = this.allSymptoms;
       if (!patientId) {
         var patientId = []
