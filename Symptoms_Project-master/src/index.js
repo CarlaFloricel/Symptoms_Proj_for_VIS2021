@@ -1057,7 +1057,7 @@ class App {
       const mean_patient = data.filter(el => el['patientId'] == this.patients[0])
       for (var i = 0; i < this.symptoms.length; i++) {
         const final_mean = mean_patient.map((e) => [e[this.symptoms[this.symptoms.length - i - 1]], e['period']])
-        const tendrilPlot = new TendrilPlot('#tendril', 340, 300, [], this.symptoms[this.symptoms.length - i - 1], final_mean);
+        const tendrilPlot = new TendrilPlot('#tendril', 340, 200, [], this.symptoms[this.symptoms.length - i - 1], final_mean);
         tendrilPlot.init();
         this.tendrilPlots.push(tendrilPlot);
       }
@@ -1096,7 +1096,7 @@ class App {
       });
 
       for (var i = 0; i < this.symptoms.length; i++) {
-        const tendrilPlot = new TendrilPlot('#tendril', 340, 300, patientDataSelected, this.symptoms[this.symptoms.length - i - 1]);
+        const tendrilPlot = new TendrilPlot('#tendril', 340, 200, patientDataSelected, this.symptoms[this.symptoms.length - i - 1]);
         tendrilPlot.init();
         this.tendrilPlots.push(tendrilPlot);
         if ($("#show-colored-tendrils").is(":checked")) {
@@ -1169,7 +1169,7 @@ class App {
       patientData['survival'] = patientDataSelected[0].survival
 
       if (this.tendrilPlots.length < 2) {
-        const tendrilPlot = new TendrilPlot('#tendril', 340, 300, patientData);
+        const tendrilPlot = new TendrilPlot('#tendril', 340, 200, patientData);
         tendrilPlot.init();
         this.tendrilPlots.push(tendrilPlot);
         $(`#leaf-rect-${id}`).css('opacity', '0.15')

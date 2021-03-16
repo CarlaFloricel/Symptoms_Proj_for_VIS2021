@@ -113,7 +113,7 @@ class ScatterPlot {
 
     const ySc = d3.scaleLinear()
     .domain([minH, maxH])
-    .range([40,this.height-10]);
+    .range([40,this.height-40]);
 
     // var svgg = d3.select(svg);
     const tip = d3tip().attr('class', 'd3-tip').html((d)=> d);

@@ -20,7 +20,7 @@ class TendrilPlot {
       .append('svg')
       .attr('class', 'Tendrils')
       .attr('id', 'Tendrils')
-      .attr('width', 200)
+      .attr('width', 210)
       .attr('height', 1450)
       .attr("viewBox", `0 0 ${width}, ${height}`)
       .attr("font-size", 10)
@@ -31,8 +31,8 @@ class TendrilPlot {
     this.patientIdEl = this.svg
       .append('text')
       .classed('patientTitle', true)
-      .attr('font-size', '1.8rem')
-      .attr('transform', `translate(${120},${600}), rotate(-90)`);
+      .attr('font-size', '1.5rem')
+      .attr('transform', `translate(${195},${570}), rotate(-90)`);
     this.drawTendrils(data, symptom, mean_selection);
 
 
@@ -97,10 +97,17 @@ class TendrilPlot {
 
       if ($("#show-mean-tendrils").is(":checked") && !$("#show-colored-tendrils").is(":checked")) {
       
-        svg.attr("transform", "translate(100, -600), rotate(90)")
+        // svg.attr("transform", "translate(100, -600), rotate(90)")
+        // const g = svg.append('g')
+        //   .classed('tendrils', true)
+        //   .attr('transform', `translate(110,500) scale(4, 4)`)
+
+        svg.attr("transform", "translate(120, -655), rotate(90)")
+        this.patientIdEl.text(symptom);
         const g = svg.append('g')
-          .classed('tendrils', true)
-          .attr('transform', `translate(110,500) scale(4, 4)`)
+          .attr("class", 'tendrils ' + symptom)
+          //.classed('tendrils', true)
+          .attr('transform', `translate(190,500) scale(3.1, 4)`)
 
         const mean_tendril_data = await d3.csv('/data/mdasi_files/tendril_data.csv');
         const current_data_therapy_1 = mean_tendril_data.filter(d => {
@@ -227,9 +234,7 @@ class TendrilPlot {
           var patientTimeIndexes = []
           var currentPatient=[]
           mean_selection.forEach(t=> {
-
             currentPatient.push(t)
-        
             const time = transformPeriodIndex(t[1])
             patientTimeIndexes.push(time) 
             if (transformPeriodIndex(t[1]) > 0 && timeIndex > 0) {
@@ -241,9 +246,7 @@ class TendrilPlot {
             else {
               sum.push(parseInt(t[0]))
             }
-  
             timeIndex += 1
-  
         })
 
           for (var k = 1; k < sum.length; k++) {
@@ -253,10 +256,10 @@ class TendrilPlot {
             const vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
             prevX = vala[0] + prevX;
             prevY = vala[1] + prevY;
-            if (patientTimeIndexes.includes(k)){
+            
             if (k < 8) {
               points.push({ x: prevX, y: prevY })
-
+              if (patientTimeIndexes.includes(k))
               g.append('circle')
                 .attr('cx', -prevX)
                 .attr('cy', -prevY)
@@ -272,6 +275,7 @@ class TendrilPlot {
 
             else {
               points2.push({ x: prevX, y: prevY })
+              if (patientTimeIndexes.includes(k)){
               g.append('circle')
                 .attr('cx', -prevX)
                 .attr('cy', -prevY)
@@ -329,10 +333,17 @@ class TendrilPlot {
 
       else if ($("#show-mean-tendrils").is(":checked") && $("#show-colored-tendrils").is(":checked")) {
 
-        svg.attr("transform", "translate(100, -600), rotate(90)")
+        // svg.attr("transform", "translate(100, -600), rotate(90)")
+        // const g = svg.append('g')
+        //   .classed('tendrils', true)
+        //   .attr('transform', `translate(110,500) scale(4, 4)`)
+
+        svg.attr("transform", "translate(120, -655), rotate(90)")
+        this.patientIdEl.text(symptom);
         const g = svg.append('g')
-          .classed('tendrils', true)
-          .attr('transform', `translate(110,500) scale(4, 4)`)
+          .attr("class", 'tendrils ' + symptom)
+          //.classed('tendrils', true)
+          .attr('transform', `translate(190,500) scale(3.1, 4)`)
 
         const mean_tendril_data = await d3.csv('/data/mdasi_files/tendril_data.csv');
         const current_data_therapy_1 = mean_tendril_data.filter(d => {
@@ -406,9 +417,8 @@ class TendrilPlot {
                 .attr("class", "singlePatientCircle " + symptom + "circle circleAcute")
                 .attr("id", symptom + "circle")
 
-              if (k == 7)
-                points2.push({ x: prevX, y: prevY })
-
+            if(k ==  7)
+            points2.push({ x: prevX, y: prevY })
             }
             else {
 
@@ -423,6 +433,8 @@ class TendrilPlot {
                 .attr("class", "singlePatientCircle " + symptom + "circle circleLate")
                 .attr("id", symptom + "circle")
             }
+
+            
           }
           const line = d3.line()
             .x((d) => (-d.x))
@@ -487,10 +499,17 @@ class TendrilPlot {
 
 
       else {
-        svg.attr("transform", "translate(100, -600), rotate(90)").style("margin-bottom", "100px !important")
+        svg.attr("transform", "translate(120, -695), rotate(90)")
+        this.patientIdEl.text(symptom);
         const g = svg.append('g')
           .attr("class", 'tendrils ' + symptom)
-          .attr('transform', `translate(110,500) scale(4, 4)`)
+          //.classed('tendrils', true)
+          .attr('transform', `translate(190,500) scale(3.1, 4)`)
+
+        // svg.attr("transform", "translate(100, -600), rotate(90)").style("margin-bottom", "100px !important")
+        // const g = svg.append('g')
+        //   .attr("class", 'tendrils ' + symptom)
+        //   .attr('transform', `translate(110,500) scale(4, 4)`)
         const { patient, survival } = data;
         const s = survival;
         const timestamps = patient.map(p => parseInt(p.period));
@@ -579,12 +598,12 @@ class TendrilPlot {
           .text('Separate')
       }
 
-      svg.attr("transform", "translate(100, -600), rotate(90)").style("margin-bottom", "100px !important")
+      svg.attr("transform", "translate(120, -690), rotate(90)")
       this.patientIdEl.text(symptom);
       const g = svg.append('g')
         .attr("class", 'tendrils ' + symptom)
         //.classed('tendrils', true)
-        .attr('transform', `translate(110,500) scale(4, 4)`)
+        .attr('transform', `translate(190,500) scale(3.1, 4)`)
         .on('mouseover', () => {
           var id = symptom;
           $(`#${id}-highlight`).css('opacity', '1')
@@ -632,17 +651,20 @@ class TendrilPlot {
           else {
             sum.push(parseInt(t[symptom]))
           }
-
+        
           timeIndex += 1
 
         })
-
+        
+        
         var time = 1;
-        const angleRange = 3 * Math.PI / 4;
+        const angleRange = 3 * Math.PI / 4.5;
         var prevX = 0;
         var prevY = 0;
         const points = [{ x: 0, y: 0 }];
         const points2 = [];
+        console.log(currentPatient[0]['patientId'])
+        console.log(sum)
         for (var k = 1; k < sum.length; k++) {
           var dif = sum[k] - sum[k - 1];
           var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
@@ -653,10 +675,12 @@ class TendrilPlot {
 
           const id = p[0][0].patientId;
 
-          if (patientTimeIndexes.includes(k))
+
+        
+          
             if (k < 8) {
               points.push({ x: prevX, y: prevY })
-
+              if (patientTimeIndexes.includes(k)){
               g.append('circle')
                 .attr('cx', -prevX)
                 .attr('cy', -prevY)
@@ -666,7 +690,9 @@ class TendrilPlot {
                 .attr('class', currentPatient[currentPatient.length - 1].patientId + " circle tendrilCircle " + currentPatient[currentPatient.length - 1].patientId + "circle circleAcute");
 
             }
+          }
             else {
+              if (patientTimeIndexes.includes(k)){
               points2.push({ x: prevX, y: prevY })
               g.append('circle')
                 .attr('cx', -prevX)
@@ -676,7 +702,7 @@ class TendrilPlot {
                 .attr('fill', '#83aad4')
                 .attr('class', currentPatient[currentPatient.length - 1].patientId + " circle tendrilCircle " + currentPatient[currentPatient.length - 1].patientId + "circle circleLate");
             }
-           
+          }
         }
 
         points2.unshift(points[points.length-1])
