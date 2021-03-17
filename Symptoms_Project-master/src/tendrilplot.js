@@ -146,7 +146,7 @@ class TendrilPlot {
             var dif = total_data[i][k] - total_data[i][k - 1];
             var angle = (dif + 10) / 20 * angleRange - angleRange / 2;
 
-            var vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
+            var vala = k < 8 ? rotate(0, 0, 0, 25, angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, angle / (2 * Math.PI) * 360);
 
             prevX = vala[0] + prevX;
             prevY = vala[1] + prevY;
@@ -253,7 +253,7 @@ class TendrilPlot {
             var dif = sum[k] - sum[k - 1]
             var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
 
-            const vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
+            const vala = k < 8 ? rotate(0, 0, 0, 25, angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, angle / (2 * Math.PI) * 360);
             prevX = vala[0] + prevX;
             prevY = vala[1] + prevY;
             
@@ -412,7 +412,7 @@ class TendrilPlot {
             var dif = total_data[i][k] - total_data[i][k - 1];
             var angle = (dif + 10) / 20 * angleRange - angleRange / 2;
 
-            var vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
+            var vala = k < 8 ? rotate(0, 0, 0, 25, angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, angle / (2 * Math.PI) * 360);
 
             prevX = vala[0] + prevX;
             prevY = vala[1] + prevY;
@@ -545,7 +545,7 @@ class TendrilPlot {
             var dif = radialData[k][symptom] - radialData[k - 1][symptom];
 
             var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
-            const vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
+            const vala = k < 8 ? rotate(0, 0, 0, 25, angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, angle / (2 * Math.PI) * 360);
             prevX = vala[0] + prevX;
             prevY = vala[1] + prevY;
             points.push({ x: prevX, y: prevY })
@@ -681,7 +681,7 @@ class TendrilPlot {
           var dif = sum[k] - sum[k - 1];
           var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
 
-          const vala = k < 8 ? rotate(0, 0, 0, 25, -angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, -angle / (2 * Math.PI) * 360);
+          const vala = k < 8 ? rotate(0, 0, 0, 25, angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, angle / (2 * Math.PI) * 360);
           prevX = vala[0] + prevX;
           prevY = vala[1] + prevY;
 

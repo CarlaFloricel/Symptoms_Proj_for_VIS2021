@@ -141,16 +141,16 @@
             </div>
             <div style="margin-bottom:4px">
               <h6 class="inline-block panel-label " style="margin-bottom: 10px; margin-top: 2px;  font-weight: bold;">
-                Outcome
+                Symptom Resolution
                 <button type="button" class="btn btn-light btn-sm reset-category-filter hidden"
                   style="  font-weight: 700 !important; padding:.0rem .5rem !important; margin-top: -7px;"
                   title="Reset filters" data-category="domain" id="outcomeReset">x</button>
               </h6>
               <div class="category-entries-container  " id="filters-list6">
                 <button type="button" class="btn btn-light btn-sm category-entry filters-list"
-                  id="Negative">Negative</button>
+                  id="Positive">Low</button>
                 <button type="button" class="btn btn-light btn-sm category-entry filters-list"
-                  id="Positive">Positive</button>
+                  id="Negative">High</button>
               </div>
             </div>
           </div>
@@ -389,14 +389,14 @@
                 width="20" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="m391.968 146.624a341.723 341.723 0 0 1 -27.011 131.284 342.818 342.818 0 0 1 -73.712 109.337 343 343 0 0 1 -243.245 100.755 24 24 0 0 1 0-48 294.062 294.062 0 0 0 209.3-86.7 294 294 0 0 0 86.667-206.59l24.033-32.044zm86.432 48.576a24 24 0 0 0 4.8-33.6l-96-128a24 24 0 0 0 -38.4 0l-96 128a24 24 0 1 0 38.4 28.8l76.8-102.4 76.8 102.4a24 24 0 0 0 33.6 4.8z" />
-              </svg> Rating Decrease
+              </svg> Rating Increase
             </div>
             <div>
               <svg id="Solid" style=" transform: rotate(90deg);" height="20" fill="#83aad4" viewBox="0 0 512 512"
                 width="20" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="m365.291 168.033a295.963 295.963 0 0 0 -293.291 295.967 24 24 0 0 1 -48 0 343.66 343.66 0 0 1 341.376-343.968l31.958 23.968zm-14.891 91.167 128-96a24 24 0 0 0 0-38.4l-128-96a24 24 0 1 0 -28.8 38.4l102.4 76.8-102.4 76.8a24 24 0 1 0 28.8 38.4z" />
-              </svg> Rating Increase
+              </svg> Rating Decrease
             </div>
             <div>
               <i class="window minimize icon" style="color:black;"></i> Selected Patient
@@ -427,7 +427,7 @@
 
 
       <div id="scatterplot" style="display: none;"></div>
-      <div onload="main();" style="transform: scale(1);margin:auto; margin-top: 0; margin-bottom: 50px; "
+      <div onload="main();" style="transform: scale(1);margin:auto; margin-top: 0; margin-bottom: 57px; "
         id="RulesContainer">
 
         <script type="text/javascript" src='graph.js'></script>
