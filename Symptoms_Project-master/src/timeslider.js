@@ -25,7 +25,8 @@ class TimeSlider {
 
  async init() {
 
-   const labels2=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+  //  const labels2=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+   const labels2=['0w', '1w', '2w', '3w', '4w', '5w', '6w', '7w', '3m', '6m', '12m', '18m']
 
     $(this.selector).slider({
       max: this.labels.length,

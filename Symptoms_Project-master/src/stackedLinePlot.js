@@ -869,11 +869,11 @@ class StackedLinePlot {
 
         }}
 
-        this.g.append('text')
-          .attr('transform', `translate(${width -25 -50*2.5},${height-447})`)
-          .text("Time")
-          .attr('font-size', '0.5rem')
-          .attr('font-weight','bold');
+        // this.g.append('text')
+        //   .attr('transform', `translate(${width -25 -50*2.5},${height-447})`)
+        //   .text("Time")
+        //   .attr('font-size', '0.5rem')
+        //   .attr('font-weight','bold');
         this.g.append('text')
           .attr('transform', `translate(${width -254},${height-7})`)
           .text("{")
