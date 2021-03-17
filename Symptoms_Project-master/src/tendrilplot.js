@@ -370,31 +370,43 @@ class TendrilPlot {
         total_data.push(current_data_therapy_4)
         this.patientIdEl.text(symptom);
 
+        // console.log(total_data)
+        // getting the 0 time step ranking
+        var domainData = []
+        for(var i = 0; i< total_data.length; i++){
+          domainData.push(+total_data[i][0])
+        }
+        // scaling the range based on the ranking
+        var getScale = d3.scaleLinear()
+                          .domain([d3.min(domainData), d3.max(domainData)])
+                          .range([-10,10])
+
         const therapy_colors = ["#9854cc", "#4d9221", "#058f96", "orange"]
         for (var i = 0; i < total_data.length; i++) {
           const angleRange = 3 * Math.PI / 4
           var prevX = 0;
           var prevY = 0;
           const points = [{ x: 0, y: 0 }];
-
+          
           if (i == 0) {
-            prevX = 15
+            prevX = getScale(+total_data[i][0]) //110
             prevY = 10
             points.push({ x: prevX, y: prevY })
           } else if (i == 1) {
-            prevX = 5
+            prevX = getScale(+total_data[i][0]) //10
             prevY = 10
             points.push({ x: prevX, y: prevY })
           } else if (i == 2) {
-            prevX = -5
+            prevX = getScale(+total_data[i][0]) //-10
             prevY = 10
             points.push({ x: prevX, y: prevY })
           } else if (i == 3) {
-            prevX = -15
+            prevX = getScale(+total_data[i][0]) //-110
             prevY = 10
             points.push({ x: prevX, y: prevY })
           }
 
+          console.log(points)
           const points2 = []
           for (var k = 1; k < total_data[i].length; k++) {
             var dif = total_data[i][k] - total_data[i][k - 1];
@@ -663,8 +675,8 @@ class TendrilPlot {
         var prevY = 0;
         const points = [{ x: 0, y: 0 }];
         const points2 = [];
-        console.log(currentPatient[0]['patientId'])
-        console.log(sum)
+        // console.log(currentPatient[0]['patientId'])
+        // console.log(sum)
         for (var k = 1; k < sum.length; k++) {
           var dif = sum[k] - sum[k - 1];
           var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
