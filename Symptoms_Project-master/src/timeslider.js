@@ -35,7 +35,8 @@ class TimeSlider {
     });
     const { labels } = this;
     $(`${this.selector} ul li`).each(function (i) {
-      $(this).text(labels2[i]);
+      $(this).text(labels2[i])
+              .css("font-size", "14px");
     })
 
   

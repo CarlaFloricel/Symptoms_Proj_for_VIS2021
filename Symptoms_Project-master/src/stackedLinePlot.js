@@ -862,10 +862,10 @@ class StackedLinePlot {
 
           
     }
-          this.g.append('text')
-          .attr('transform', `translate(${width -22 -25*k},${height-428})`)
-          .text(transformPeriod((11-k)))
-          .attr('font-size', '0.5rem')
+          // this.g.append('text')
+          // .attr('transform', `translate(${width -22 -25*k},${height-428})`)
+          // .text(transformPeriod((11-k)))
+          // .attr('font-size', '0.5rem')
 
         }}
 
