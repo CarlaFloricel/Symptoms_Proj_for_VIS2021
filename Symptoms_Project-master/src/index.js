@@ -813,6 +813,8 @@ class App {
     if (this.filteredPatients.length > 0) {
       this.stackPlot.clear();
       this.stackPlot.update(this.filteredPatients, this.symptoms);
+      console.log("filtere patietns")
+      console.log(this.filteredPatients)
       if (!redrawTendrils) {
         if( ! $(`#SymptomRules`).hasClass('active')){
           $('#selectedAcute').hide()
@@ -860,7 +862,7 @@ class App {
     if (!symptoms || symptoms.length == 0) {
       // D:\RA Project\Symptoms\Symptoms_Proj_for_VIS2021\Symptoms_Project-master\data\mdasi_files
       // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`
-      filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`;
+      filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
       var symptoms = this.allSymptoms;
       if (!patientId) {
         var patientId = []
@@ -898,7 +900,7 @@ class App {
     else {
       if (!patientId) {
         var patientId = []
-        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`;
+        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
         const response = await fetch("http://localhost:5000/", { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, symptoms, patientId }) });
         const filtered_clusters = await response.json();
         const f = []
@@ -931,7 +933,7 @@ class App {
         return data;
       }
       else {
-        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files/week_${period}.csv`;
+        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
         const response = await fetch("http://localhost:5000/", { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, symptoms, patientId }) });
         const filtered_clusters = await response.json();
 
@@ -1204,6 +1206,7 @@ class App {
   async showStackPlot(patientId) {
 
     const patientInfo = await d3.csv('/data/mdasi_files/mdasi_all_timepoints.csv');
+    console.log(patientInfo)
     this.stackPlot = new StackedLinePlot(patientInfo, patientId);
     this.stackPlot.init();
 

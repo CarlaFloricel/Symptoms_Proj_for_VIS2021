@@ -56,6 +56,7 @@ class StackedLinePlot {
     for (i = 0; i < patientId.length; i++) {
       patients[i] = this.data.filter(p => p.patientId == patientId[i]);
     }
+
     const colors = ['#803e3b', '#DA8A00', '#058f96', '#9854cc', '#66a61e'];
     const periods = ['0', '6', '12', '18', '24', '25'];
 
@@ -219,7 +220,10 @@ class StackedLinePlot {
           matrixData[transformPeriodIndex(p.period)].push(p)
         })
       })
+
+
       var maxLen = Math.max(...matrixData.map(el => el.length));
+
 
       var selected_patient = [[],[],[],[],[],[],[],[],[],[],[],[]];
       if(selectedP.length>0)
@@ -325,8 +329,8 @@ class StackedLinePlot {
                      $(`.symptoms-list`).css("color","black")
                   $(`#${window.lastSelectedSymptom}`).css("color","red")
                 })
-                .append('title')
-                .text(matrixData[k][0] ? matrixData[k][0][ss] : "Missing information")
+                // .append('title')
+                // .text(matrixData[k][0] ? matrixData[k][0][ss] : "Missing information")
 
               }
 
@@ -356,7 +360,7 @@ class StackedLinePlot {
               var time_ind = time == 0 ? 0 : time == 1 ? 1 : time == 2 ? 2 : time == 3 ? 3 : time == 4 ? 4 : time == 5 ? 5 : time == 6 ? 6 : time == 7 ? 7 : time == 12 ? 8 : time == 24 ? 9: time == 48 ? 10 : 11;
               
               var sympText = ""+ window.lastSelectedSymptom
-              
+
               i1=matrixData[time_ind].filter(m => m[ window.lastSelectedSymptom] == 0).length;
               i2=matrixData[time_ind].filter(m => m[ window.lastSelectedSymptom] > 0 && m[ window.lastSelectedSymptom] <6).length;
               i3=matrixData[time_ind].filter(m => m[ window.lastSelectedSymptom] > 5 && m[ window.lastSelectedSymptom] <10).length;
@@ -471,12 +475,12 @@ class StackedLinePlot {
                   id = id.replace("-rect","");
                   var m = -1;
                   if(id.includes("10")){
-                    m=3;
+                    m=10;
                     id = id.replace("10","")
                   }
                   if(id.includes("11")){
                     id = id.replace("11","")
-                    m=4
+                    m=11
                   }
                   if(id.includes("0")){
                     id = id.replace("0","")
@@ -503,19 +507,19 @@ class StackedLinePlot {
                     m=5
                   }
                   if (id.includes("6")){
-                    m=1;
+                    m=6;
                     id = id.replace("6","")
                   }
                   if(id.includes("7")){
-                    m=2;
+                    m=7;
                     id = id.replace("7","")
                   }
                   if (id.includes("8")){
-                    m=1;
+                    m=8;
                     id = id.replace("8","")
                   }
                   if(id.includes("9")){
-                    m=2;
+                    m=9;
                     id = id.replace("9","")
                   }
 
@@ -547,11 +551,11 @@ class StackedLinePlot {
                   var id = this['id'];
                   id = id.replace("-rect","");
                   if(id.includes("10")){
-                    m=0;
+                    m=10;
                     id = id.replace("10","")
                   }
                   if (id.includes("11")){
-                    m=1;
+                    m=11;
                     id = id.replace("11","")
                   }
                   if(id.includes("0")){
@@ -579,24 +583,22 @@ class StackedLinePlot {
                     m=5
                   }
                   if(id.includes("6")){
-                    m=2;
+                    m=6;
                     id = id.replace("6","")
                   }
                   if(id.includes("7")){
-                    m=3;
+                    m=7;
                     id = id.replace("7","")
                   }
                   if(id.includes("8")){
                     id = id.replace("8","")
-                    m=4
+                    m=8
                   }
                   if(id.includes("9")){
                     id = id.replace("9","")
-                    m=5
+                    m=9
                   }
-                  d3.select(this)
-                    .append("title")
-                    .text(transformTooltipText(id, maxLen,m,"full") )
+
                     const textt = transformTooltipText(id, maxLen,m,"full")
                     tip.show(textt, this)
                   $(`#${id}-highlight`).css('opacity','1')
@@ -628,11 +630,11 @@ class StackedLinePlot {
                   var m = -1;
                   id = id.replace("-rect","");
                   if(id.includes("10")){
-                    m=0;
+                    m=10;
                     id = id.replace("10","")
                   }
                   if (id.includes("11")){
-                    m=1;
+                    m=11;
                     id = id.replace("11","")
                   }
                   if(id.includes("0")){
@@ -660,20 +662,20 @@ class StackedLinePlot {
                     m=5
                   }
                   if(id.includes("6")){
-                    m=2;
+                    m=6;
                     id = id.replace("6","")
                   }
                   if(id.includes("7")){
-                    m=3;
+                    m=7;
                     id = id.replace("7","")
                   }
                   if(id.includes("8")){
                     id = id.replace("8","")
-                    m=4
+                    m=8
                   }
                   if(id.includes("9")){
                     id = id.replace("9","")
-                    m=5
+                    m=9
                   } 
 
                     const textt =transformTooltipText(id, maxLen,m,"full")
@@ -706,11 +708,11 @@ class StackedLinePlot {
                   var m = -1;
                   id = id.replace("-rect","");
                   if(id.includes("10")){
-                    m=0;
+                    m=10;
                     id = id.replace("10","")
                   }
                   if (id.includes("11")){
-                    m=1;
+                    m=11;
                     id = id.replace("11","")
                   }
                   if(id.includes("0")){
@@ -738,20 +740,20 @@ class StackedLinePlot {
                     m=5
                   }
                   if(id.includes("6")){
-                    m=2;
+                    m=6;
                     id = id.replace("6","")
                   }
                   if(id.includes("7")){
-                    m=3;
+                    m=7;
                     id = id.replace("7","")
                   }
                   if(id.includes("8")){
                     id = id.replace("8","")
-                    m=4
+                    m=8
                   }
                   if(id.includes("9")){
                     id = id.replace("9","")
-                    m=5
+                    m=9
                   }
 
                     const textt = transformTooltipText(id, maxLen,m,"full")
@@ -785,11 +787,11 @@ class StackedLinePlot {
                   id = id.replace("-rect","");
                   var m = -1;
                   if(id.includes("10")){
-                    m=0;
+                    m=10;
                     id = id.replace("10","")
                   }
                   if (id.includes("11")){
-                    m=1;
+                    m=11;
                     id = id.replace("11","")
                   }
                   if(id.includes("0")){
@@ -817,20 +819,20 @@ class StackedLinePlot {
                     m=5
                   }
                   if(id.includes("6")){
-                    m=2;
+                    m=6;
                     id = id.replace("6","")
                   }
                   if(id.includes("7")){
-                    m=3;
+                    m=7;
                     id = id.replace("7","")
                   }
                   if(id.includes("8")){
                     id = id.replace("8","")
-                    m=4
+                    m=8
                   }
                   if(id.includes("9")){
                     id = id.replace("9","")
-                    m=5
+                    m=9
                   }
 
                     const textt = transformTooltipText(id, maxLen,m,"full")
@@ -847,6 +849,7 @@ class StackedLinePlot {
 
                       
                 })
+
                 if(selected_patient[k].length >0){
                   
                   var rating= selected_patient[k][0][symp[27-i]];

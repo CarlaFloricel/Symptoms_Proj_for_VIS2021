@@ -113,7 +113,7 @@ class ScatterPlot {
 
     const ySc = d3.scaleLinear()
     .domain([minH, maxH])
-    .range([40,this.height-40]);
+    .range([35,this.height-55]);
 
     // var svgg = d3.select(svg);
     const tip = d3tip().attr('class', 'd3-tip').html((d)=> d);
@@ -127,18 +127,17 @@ class ScatterPlot {
       .attr("id", d => (`leaf-container-${d.patientId}`))
       .style('cursor', 'pointer')
       .on('mouseover', function () {
-            // d3.select(this)
-            // .append("title")
-            // .text(d => "Patient ID: " +d.patientId);
+        console.log(window.selectedpatient)
               var aux_id = this['id'];
               aux_id = aux_id.replace("leaf-container-","");
-              if(window.selectedpatient.length ==0)
-               window.selectedPatient = aux_id;
                if(!$('#show-mean-tendrils').is(":checked")){
                 $('.stackPath').css('opacity','0.1');
                 $('.circle').css('opacity','0');
-               $(`.${window.selectedPatient}`).css('stroke-width','2.8')
-                                              .css('opacity','0.8');
+                // if(window.selectedpatient)
+                // $(`.${window.selectedpatient}`).css('opacity','0.8')
+                $(`.${aux_id}`).css('stroke-width','2.8')
+              .css('opacity','0.8');
+              
               $(".sympBar").css("opacity",'0.2')
                }
 
@@ -149,15 +148,15 @@ class ScatterPlot {
          $('.stackPath').css('opacity','0.6')
          $('.tendrilsPath').css('opacity','0.65')
                             .css('stroke-width','0.5px')
-          $('.circle').css('opacity','0.65')
-          $('.circle').css('stroke-width','0.65')
+           $('.circle').css('opacity','0.65')
+
       })
       leaf.append("rect")
       .attr("class","leaf-rect")
       .attr("id", d => (`leaf-rect-${d.patientId}`))
-       .attr("transform", d => `translate(-${ this.transformRadius(d.t_category)*1.5},-${ this.transformRadius(d.t_category)*1.5})`)
-      .attr("height", d=> this.transformRadius(d.t_category)*2.9)
-      .attr("width", d=> this.transformRadius(d.t_category) *2.9)
+       .attr("transform", d =>this.transformRadius(d.t_category) < 5 ? `translate(-${ this.transformRadius(d.t_category)*2.5},-${ this.transformRadius(d.t_category)*2.5})` : `translate(-${ this.transformRadius(d.t_category)*1.5},-${ this.transformRadius(d.t_category)*1.5})`)
+      .attr("height", d=>  this.transformRadius(d.t_category) < 5 ? this.transformRadius(d.t_category)*5 : this.transformRadius(d.t_category)*3 )
+      .attr("width", d=> this.transformRadius(d.t_category) < 5 ? this.transformRadius(d.t_category)*5 : this.transformRadius(d.t_category)*3)
       .attr("fill", "red")
       .attr("opacity",'0')
 

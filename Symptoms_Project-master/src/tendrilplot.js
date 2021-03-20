@@ -109,7 +109,7 @@ class TendrilPlot {
           //.classed('tendrils', true)
           .attr('transform', `translate(190,500) scale(3.1, 4)`)
 
-        const mean_tendril_data = await d3.csv('/data/mdasi_files/tendril_data.csv');
+        const mean_tendril_data = await d3.csv('/data/mdasi_files/tendril_data_new.csv');
         const current_data_therapy_1 = mean_tendril_data.filter(d => {
           if (d['period'] == window.currentPeriod && d['therapeutic_combination'] == "Radiation alone")
             return d
@@ -345,7 +345,7 @@ class TendrilPlot {
           //.classed('tendrils', true)
           .attr('transform', `translate(190,500) scale(3.1, 4)`)
 
-        const mean_tendril_data = await d3.csv('/data/mdasi_files/tendril_data.csv');
+        const mean_tendril_data = await d3.csv('/data/mdasi_files/tendril_data_new.csv');
         const current_data_therapy_1 = mean_tendril_data.filter(d => {
           if (d['period'] == window.currentPeriod && d['therapeutic_combination'] == "Radiation alone")
             return d
@@ -660,6 +660,11 @@ class TendrilPlot {
               sum.push(parseInt(currentPatient[timeIndex - 1][symptom]))
             sum.push(parseInt(t[symptom]))
           }
+          else if(transformPeriodIndex(t['period']) > 0 && timeIndex == 0){
+            for (var h = 0; h < transformPeriodIndex(t['period']) - 1; h++)
+              sum.push(parseInt(currentPatient[timeIndex][symptom]))
+            sum.push(parseInt(t[symptom]))
+          }
           else {
             sum.push(parseInt(t[symptom]))
           }
@@ -675,12 +680,11 @@ class TendrilPlot {
         var prevY = 0;
         const points = [{ x: 0, y: 0 }];
         const points2 = [];
-        // console.log(currentPatient[0]['patientId'])
-        // console.log(sum)
+
         for (var k = 1; k < sum.length; k++) {
           var dif = sum[k] - sum[k - 1];
           var angle = ((10 + dif) / 20) * angleRange - angleRange / 2;
-
+          
           const vala = k < 8 ? rotate(0, 0, 0, 25, angle / (2 * Math.PI) * 360) : rotate(0, 0, 0, 50, angle / (2 * Math.PI) * 360);
           prevX = vala[0] + prevX;
           prevY = vala[1] + prevY;
@@ -769,14 +773,14 @@ class TendrilPlot {
           .attr('fill', 'none')
           .attr('stroke', '#83aad4')
           .attr('class', currentPatient[0].patientId + " stackPath tendrilsPath " + currentPatient[0].patientId + "path meanPathLate")
-          .attr('id', currentPatient[0].patientId)
+          .attr('id', currentPatient[0].patientId + " late")
           .attr('stroke-width', '0.5px')
           .attr("opacity", () => { return window.freshTendril == 1 ? '0.2' : '0.65' })
           .attr('d', line(points2))
           .on('mouseover', function () {
             const textt = "Patient ID: " + p[0][0]['patientId']
             tip.show(textt, this)
-            window.selectedPatient = this['id'];
+            window.selectedPatient = this['id'].replace(" late", "");
             $('.stackPath').css('opacity', '0.2');
             $('.circle').css('opacity', '0');
             $(`.${window.selectedPatient}`).css('stroke-width', '2.8')
@@ -797,7 +801,11 @@ class TendrilPlot {
             $('.circle').css('opacity', '0')
             $('.tendrilsPath').css('opacity', '0.2')
 
-            if ($(`#Late`).hasClass('active') && !$(`#Patients2D`).hasClass('active')) {
+            if($(`#Patients2D`).hasClass('active')){
+              $('.tendrilsPath').css('opacity', '0.65')
+              $('.circle').css('opacity', '0.65')
+            }
+            else if ($(`#Late`).hasClass('active') && !$(`#Patients2D`).hasClass('active')) {
               $('.meanPathLate').css('opacity', '0.65')
               $('.circleLate').css('opacity', '0.65')
             }
@@ -806,12 +814,7 @@ class TendrilPlot {
               $('.circleAcute').css('opacity', '0.65')
 
             }
-            else {
 
-              $('.tendrilsPath').css('opacity', '0.65')
-              $('.circle').css('opacity', '0.65')
-
-            }
 
 
           })
