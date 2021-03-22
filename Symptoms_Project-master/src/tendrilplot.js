@@ -90,7 +90,7 @@ class TendrilPlot {
     }
 
     if (!data.length) {
-
+      const therapy_tooltip_text = ["Radiation", "CC+Radiation","IC+Radiation", "IC+Radiation+CC" ]
       var Symptoms = ['nausea', 'vomit', 'mucus', 'breath', 'choking', 'swallow', 'dryMouth', 'teeth', 'speech', 'taste', 'appetite', 'constipation',
         'sores', 'skin', 'pain', 'sleep', 'drowsiness', 'numbness', 'fatigue', 'distress', 'memory', 'sadness',
         'mood', 'enjoyment', 'activities', 'work', 'relations', 'walking'];
@@ -190,14 +190,15 @@ class TendrilPlot {
           g.append('path')
             .attr('fill', 'none')
             .attr('class', "stackPath meanPathAcute " + therapy_colors[i])
-            .attr('id', therapy_colors[i] + "tendril")
+            .attr('id', therapy_colors[i] + "tendril"+i)
             .attr('stroke', therapy_colors[i])
             .attr('stroke-width', '0.5px')
             .attr("opacity", '0.65')
             .attr('d', line(points))
             .on('mouseover', function () {
-              const th = i == 0 ? "Radiation" : i == 1 ? "IC + Radiation" : i == 2 ? "IC + Radiation + CC" : "CC + Radiation"
-              const textt = "Therapy: " + th
+             var id =  d3.select(this)["_groups"][0][0]['id']
+             var id1 = id[id.length-1]
+              const textt = "Therapy: " + therapy_tooltip_text[id1]
               tip.show(textt, this)
             })
             .on('mouseout', function () {
@@ -207,14 +208,15 @@ class TendrilPlot {
           g.append('path')
             .attr('fill', 'none')
             .attr('class', "stackPath meanPathLate " + therapy_colors[i])
-            .attr('id', therapy_colors[i] + "tendril")
+            .attr('id', therapy_colors[i] + "tendril"+i)
             .attr('stroke', therapy_colors[i])
             .attr('stroke-width', '0.5px')
             .attr("opacity", '0.65')
             .attr('d', line(points2))
             .on('mouseover', function () {
-              const th = i == 0 ? "Radiation" : i == 1 ? "IC + Radiation" : i == 2 ? "IC + Radiation + CC" : "CC + Radiation"
-              const textt = "Therapy: " + th
+              var id =  d3.select(this)["_groups"][0][0]['id']
+              var id1 = id[id.length-1]
+              const textt = "Therapy: " +therapy_tooltip_text[id1]
               tip.show(textt, this)
             })
             .on('mouseout', function () {
@@ -382,6 +384,7 @@ class TendrilPlot {
                           .range([-10,10])
 
         const therapy_colors = ["#9854cc", "#4d9221", "#058f96", "orange"]
+        
         for (var i = 0; i < total_data.length; i++) {
           const angleRange = 3 * Math.PI / 4
           var prevX = 0;
@@ -406,8 +409,8 @@ class TendrilPlot {
             points.push({ x: prevX, y: prevY })
           }
 
-          console.log(points)
           const points2 = []
+          
           for (var k = 1; k < total_data[i].length; k++) {
             var dif = total_data[i][k] - total_data[i][k - 1];
             var angle = (dif + 10) / 20 * angleRange - angleRange / 2;
@@ -454,15 +457,16 @@ class TendrilPlot {
             .curve(d3.curveCardinal.tension(0.5));
           g.append('path')
             .attr('fill', 'none')
-            .attr('class', "stackPath meanPathAcute " + therapy_colors[i])
-            .attr('id', therapy_colors[i] + "tendril")
+            .attr('class', "stackPath meanPathAcute " + therapy_colors[i] )
+            .attr('id', therapy_colors[i] + "tendril"+i)
             .attr('stroke', therapy_colors[i])
             .attr('stroke-width', '0.5px')
             .attr("opacity", '0.65')
             .attr('d', line(points))
             .on('mouseover', function () {
-              const th = i == 0 ? "Radiation" : i == 1 ? "IC + Radiation" : i == 2 ? "IC + Radiation + CC" : "CC + Radiation"
-              const textt = "Therapy: " + th
+              var id =  d3.select(this)["_groups"][0][0]['id']
+              var id1 = id[id.length-1]
+              const textt = "Therapy: " +therapy_tooltip_text[id1]
               tip.show(textt, this)
             })
             .on('mouseout', function () {
@@ -471,15 +475,16 @@ class TendrilPlot {
 
           g.append('path')
             .attr('fill', 'none')
-            .attr('class', "stackPath meanPathLate " + therapy_colors[i])
-            .attr('id', therapy_colors[i] + "tendril")
+            .attr('class', "stackPath meanPathLate " + therapy_colors[i] )
+            .attr('id', therapy_colors[i] + "tendril" +i)
             .attr('stroke', therapy_colors[i])
             .attr('stroke-width', '0.5px')
             .attr("opacity", '0.65')
             .attr('d', line(points2))
             .on('mouseover', function () {
-              const th = i == 0 ? "Radiation" : i == 1 ? "IC + Radiation" : i == 2 ? "IC + Radiation + CC" : "CC + Radiation"
-              const textt = "Therapy: " + th
+              var id =  d3.select(this)["_groups"][0][0]['id']
+              var id1 = id[id.length-1]
+              const textt = "Therapy: " + therapy_tooltip_text[id1]
               tip.show(textt, this)
             })
             .on('mouseout', function () {
@@ -632,6 +637,7 @@ class TendrilPlot {
         })
 
       const patients = data;
+      console.log(patients)
       var index = 0;
       patients.forEach((p, i) => {
         if (parseInt(p[0][0].patientId) == window.selectedpatient)

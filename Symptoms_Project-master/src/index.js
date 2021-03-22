@@ -813,8 +813,7 @@ class App {
     if (this.filteredPatients.length > 0) {
       this.stackPlot.clear();
       this.stackPlot.update(this.filteredPatients, this.symptoms);
-      console.log("filtere patietns")
-      console.log(this.filteredPatients)
+
       if (!redrawTendrils) {
         if( ! $(`#SymptomRules`).hasClass('active')){
           $('#selectedAcute').hide()
@@ -1206,7 +1205,7 @@ class App {
   async showStackPlot(patientId) {
 
     const patientInfo = await d3.csv('/data/mdasi_files/mdasi_all_timepoints.csv');
-    console.log(patientInfo)
+ 
     this.stackPlot = new StackedLinePlot(patientInfo, patientId);
     this.stackPlot.init();
 
