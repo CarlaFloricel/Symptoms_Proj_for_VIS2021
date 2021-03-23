@@ -893,8 +893,8 @@ class App {
     var filename = ''
     if (!symptoms || symptoms.length == 0) {
       // D:\RA Project\Symptoms\Symptoms_Proj_for_VIS2021\Symptoms_Project-master\data\mdasi_files
-      filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
-      // filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
+      // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
+      filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
       var symptoms = this.allSymptoms;
       if (!patientId) {
         var patientId = []
@@ -932,8 +932,8 @@ class App {
     else {
       if (!patientId) {
         var patientId = []
-        filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
-        // filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
+        // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
+        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
         const response = await fetch("http://localhost:5000/", { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, symptoms, patientId }) });
         const filtered_clusters = await response.json();
         const f = []
@@ -966,8 +966,8 @@ class App {
         return data;
       }
       else {
-        filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
-        // filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
+        // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
+        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
         const response = await fetch("http://localhost:5000/", { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, symptoms, patientId }) });
         const filtered_clusters = await response.json();
 
