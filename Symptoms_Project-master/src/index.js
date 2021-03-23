@@ -161,10 +161,10 @@ class App {
     this.patientFilters = ["Male", "Female"];
     this.onPatientSelect();
 
-    setTimeout(() => {
+    // setTimeout(() => {
       $('.stackPath').css('opacity', '0.2');
       $('.tendrilCircle').css('opacity', '0');
-    }, 20);
+    // }, 20);
 
     $(document).on("click", (event) => {
       var idd = event.target.id;
@@ -485,13 +485,13 @@ class App {
         $('.linePlots').css('opacity', '0.3');
         $('.lastLinePlots').css('stroke-width', '2')
         $('#lastSelectedsymp').css('display', 'block');
-        setTimeout(function () {
+        // setTimeout(function () {
           $('#lastSelectedsymp').css('display', 'none');
           $('#lastSymp').css('font-size', '1em');
           $('.linePlots').css('opacity', '0.6');
           $('.lastLinePlots').css('stroke-width', '1')
 
-        }, 10);
+        // }, 10);
       }
     }
     var a1 = this.symptoms.filter(v => ['sleep', 'drowsiness', 'numbness', 'fatigue', 'distress', 'memory', 'sadness', 'mood', 'enjoyment', 'activities', 'work', 'relations'].includes(v))
@@ -819,14 +819,14 @@ class App {
         if( ! $(`#SymptomRules`).hasClass('active')){
           $('#selectedAcute').hide()
         }
-        setTimeout(() => {
+        // setTimeout(() => {
           this.drawTendrilPlot(this.filteredPatients, []);
           window.freshTendril = 0;
           for (var i = 0; i < this.symptoms.length; i++) {
             $(`#${this.symptoms[i]}`).addClass("active");
           }
 
-        }, 10);
+        // }, 10);
       }
       return;
     }
@@ -842,11 +842,11 @@ class App {
         if( ! $(`#SymptomRules`).hasClass('active')){
           $('#selectedAcute').hide()
         }
-        setTimeout(() => {
+        // setTimeout(() => {
           this.drawTendrilPlot();
           window.freshTendril = 0;
 
-        }, 10);
+        // }, 10);
       }
 
     }
