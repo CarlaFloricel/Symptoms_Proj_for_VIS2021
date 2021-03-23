@@ -34,6 +34,7 @@ class App {
     this.onFilterToggle = this.onFilterToggle.bind(this);
     this.onCategoryFilterReset = this.onCategoryFilterReset.bind(this);
     this.updateCategoryResetButton = this.updateCategoryResetButton.bind(this);
+    this.updateResetButton = this.updateResetButton.bind(this)
     this.selectSymptom = this.selectSymptom.bind(this);
     this.drawMatrix = this.drawMatrix.bind(this);
     this.showPatientNeighbors = this.showPatientNeighbors.bind(this);
@@ -153,7 +154,7 @@ class App {
       for (var k = 0; k < $(".filters-list").length; k++) {
         var el = $(".filters-list")[k].id;
         $(`#${el}`).removeClass("active");
-        this.updateCategoryResetButton(el);
+        this.updateResetButton(el);
       }
     });
 
@@ -213,6 +214,37 @@ class App {
   async sliderLiftUpdate() {
 
 
+
+  }
+
+  async updateResetButton(element) {
+    if ($(".filters-symptoms-list.active").length > 0) {
+      $("#filtersResetButton").removeClass("hidden");
+    }
+    else {
+      $("#filtersResetButton").addClass("hidden");
+    }
+    var container = $(`#${element}`).parent();
+    var resetButton = container.parent().find(".reset-category-filter");
+    if (container.children(".category-entry:not(.active)").length < container.children().length) {
+      resetButton.removeClass("hidden");
+    }
+    else {
+      resetButton.addClass("hidden");
+    }
+
+    this.patientFilters = [];
+    for (var i = 0; i < $(".filters-list.active").length; i++) {
+      if (!this.patientFilters.includes($(".filters-list.active")[i].id))
+        this.patientFilters.push($(".filters-list.active")[i].id)
+    }
+    this.onPatientFilter(this.period, true);
+    // if ($(`#${element}`).hasClass("filters-symptoms-list")) {
+    //   this.onPatientFilter(this.period, true);
+    // }
+    // else {
+    //   this.onPatientFilter(this.period);
+    // }
 
   }
 
@@ -861,8 +893,8 @@ class App {
     var filename = ''
     if (!symptoms || symptoms.length == 0) {
       // D:\RA Project\Symptoms\Symptoms_Proj_for_VIS2021\Symptoms_Project-master\data\mdasi_files
-      // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
-      filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
+      filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
+      // filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
       var symptoms = this.allSymptoms;
       if (!patientId) {
         var patientId = []
@@ -900,8 +932,8 @@ class App {
     else {
       if (!patientId) {
         var patientId = []
-        // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
-        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
+        filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
+        // filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
         const response = await fetch("http://localhost:5000/", { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, symptoms, patientId }) });
         const filtered_clusters = await response.json();
         const f = []
@@ -934,8 +966,8 @@ class App {
         return data;
       }
       else {
-        // filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
-        filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
+        filename = `D:/RA Project/Symptoms/Symptoms_Proj_for_VIS2021/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`
+        // filename = `C:/Users/carla/Desktop/Symptoms_Project-master/Symptoms_Project-master/data/mdasi_files_new/week_${period}.csv`;
         const response = await fetch("http://localhost:5000/", { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename, symptoms, patientId }) });
         const filtered_clusters = await response.json();
 
@@ -1043,6 +1075,7 @@ class App {
       $('#RulesContainer2').hide()
     }
     if (this.tendrilPlots && this.tendrilPlots.length > 0) {
+      console.log('svg removed')
       this.tendrilPlots.forEach(plot => plot.svg.remove());
       this.tendrilPlots = [];
     }
@@ -1100,6 +1133,7 @@ class App {
       });
 
       for (var i = 0; i < this.symptoms.length; i++) {
+        console.log("loop is calling")
         const tendrilPlot = new TendrilPlot('#tendril', 340, 200, patientDataSelected, this.symptoms[this.symptoms.length - i - 1]);
         tendrilPlot.init();
         this.tendrilPlots.push(tendrilPlot);
