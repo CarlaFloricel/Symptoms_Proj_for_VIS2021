@@ -84,6 +84,8 @@ class ScatterPlot {
 
   transformRadius(r) {
     switch (r) {
+      case 'T0':
+        return 2;
       case 'T1':
         return 3.5;
       case 'T2':

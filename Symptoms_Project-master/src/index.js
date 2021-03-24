@@ -655,6 +655,10 @@ class App {
     var tumorFilter = [];
     var outcomeFilter = [];
     this.emptyPatientFilter = false;
+        if (this.patientFilters.includes("T0")) {
+      patients = (data.filter(d => d.t_category == "T0"));
+      patients.forEach(el => tumorFilter.push(el));
+    }
     if (this.patientFilters.includes("T1")) {
       patients = (data.filter(d => d.t_category == "T1"));
       patients.forEach(el => tumorFilter.push(el));
