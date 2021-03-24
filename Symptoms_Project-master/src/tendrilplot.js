@@ -734,7 +734,7 @@ class TendrilPlot {
           .attr('class', currentPatient[0].patientId + " stackPath tendrilsPath " + currentPatient[0].patientId + "path meanPathAcute")
           .attr('id', currentPatient[0].patientId)
           .attr('stroke-width', '0.5px')
-          .attr("opacity", () => { return window.freshTendril == 1 ? '0.2' : '0.65' })
+          .attr("opacity", '0.65' )
           .attr('d', line(points))
           .on('mouseover', function () {
             const textt = "Patient ID: " + p[0][0]['patientId']
@@ -744,7 +744,9 @@ class TendrilPlot {
             $('.circle').css('opacity', '0');
             $(`.${window.selectedPatient}`).css('stroke-width', '2.8')
               .css('opacity', '0.8');
-            $(`#leaf-rect-${this['id']}`).css("opacity", '0.3')
+            $(`.${window.selectedPatient}circle`).css('r', '3')
+            .css('opacity', '1');
+            $(`#leaf-rect-${window.selectedpatient}`).css("opacity", '0.3')
 
             $('.sympBar').css('opacity', '0.2');
 
@@ -754,6 +756,7 @@ class TendrilPlot {
             d3.select(this)
               .attr('stroke', '#83aad4')
             $(`.${window.selectedPatient}`).css('stroke-width', '0.5px')
+            $(`.${window.selectedPatient}circle`).css('r', '1.5')
             $('.plot path').css('opacity', '0.6')
             $(".leaf-rect").css("opacity", "0")
             $(`#leaf-rect-${window.selectedpatient}`).css("opacity", '0.3')
@@ -781,7 +784,7 @@ class TendrilPlot {
           .attr('class', currentPatient[0].patientId + " stackPath tendrilsPath " + currentPatient[0].patientId + "path meanPathLate")
           .attr('id', currentPatient[0].patientId + " late")
           .attr('stroke-width', '0.5px')
-          .attr("opacity", () => { return window.freshTendril == 1 ? '0.2' : '0.65' })
+          .attr("opacity",'0.65' )
           .attr('d', line(points2))
           .on('mouseover', function () {
             const textt = "Patient ID: " + p[0][0]['patientId']
@@ -791,7 +794,9 @@ class TendrilPlot {
             $('.circle').css('opacity', '0');
             $(`.${window.selectedPatient}`).css('stroke-width', '2.8')
               .css('opacity', '0.8');
-            $(`#leaf-rect-${this['id']}`).css("opacity", '0.3')
+            $(`.${window.selectedPatient}circle`).css('r', '3')
+              .css('opacity', '1');
+            $(`#leaf-rect-${window.selectedpatient}`).css("opacity", '0.3')
 
             $('.sympBar').css('opacity', '0.2');
 
@@ -800,7 +805,8 @@ class TendrilPlot {
             tip.hide()
             d3.select(this)
               .attr('stroke', '#83aad4')
-            $(`.${window.selectedPatient}`).css('stroke-width', '0.5px').css('opacity', '0.2')
+            $(`.${window.selectedPatient}`).css('stroke-width', '0.5px')
+            $(`.${window.selectedPatient}circle`).css('r', '1.5')
             $('.plot path').css('opacity', '0.6')
             $(".leaf-rect").css("opacity", "0")
             $(`#leaf-rect-${window.selectedpatient}`).css("opacity", '0.3')
